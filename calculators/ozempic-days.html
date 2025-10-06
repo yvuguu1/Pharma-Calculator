@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ozempic Day Supply Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .calculator {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      max-width: 95vw;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 24px;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #dbeafe;
+    }
+
+    select,
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      margin-bottom: 16px;
+      border: 1.6px solid #93c5fd;
+      border-radius: 6px;
+      background-color: white;
+      color: #1e293b;
+    }
+
+    select:focus,
+    input[type="number"]:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 5px #3b82f677;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+    }
+
+    button:hover {
+      background-color: #1e40af;
+    }
+
+    .result-box {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 6px;
+      font-weight: bold;
+      background-color: #f9f9f9;
+      color: #1e293b;
+      font-size: 1.1rem;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h2>Ozempic Day Supply Calculator</h2>
+
+    <label for="package-size">Package Size:</label>
+    <select id="package-size">
+      <option value="2">2 mg Pen (Red/White)</option>
+      <option value="4">4 mg Pen (Green/White)</option>
+      <option value="8">8 mg Pen (Brown/White)</option>
+    </select>
+
+    <label for="dosage">Dosage per Week:</label>
+    <select id="dosage">
+      <option value="0.25">0.25 mg/week</option>
+      <option value="0.5">0.5 mg/week</option>
+      <option value="1">1 mg/week</option>
+      <option value="2">2 mg/week</option>
+    </select>
+
+    <label for="quantity">Number of Pens Dispensed:</label>
+    <input type="number" id="quantity" min="1" placeholder="Enter quantity" />
+
+    <button onclick="calculateDaysOfSupply()">Calculate</button>
+
+    <div id="result" class="result-box"></div>
+
+    <a href="../index.html">← Back to Home</a>
+  </div>
+
+  <script>
+    function calculateDaysOfSupply() {
+      const pkg = parseFloat(document.getElementById('package-size').value);
+      const dose = parseFloat(document.getElementById('dosage').value);
+      const qty = parseInt(document.getElementById('quantity').value);
+
+      if (isNaN(pkg) || isNaN(dose) || isNaN(qty) || qty <= 0 || dose <= 0) {
+        document.getElementById('result').innerText = "Please enter valid values.";
+        return;
+      }
+
+      const totalMg = pkg * qty;
+      const totalWeeks = totalMg / dose;
+      const days = Math.floor(totalWeeks * 7);
+
+      document.getElementById('result').innerText =
+        `Your Ozempic supply will last for approximately ${days} day(s).`;
+    }
+  </script>
+</body>
+</html>

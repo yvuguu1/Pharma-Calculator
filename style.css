@@ -1,0 +1,97 @@
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+}
+
+.main-header {
+  background: linear-gradient(to right, #3b82f6, #1e40af);
+  color: white;
+  padding: 40px;
+  text-align: center;
+}
+
+.main-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.main-header p {
+  font-size: 1.1rem;
+}
+
+.categories {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.category {
+  background-color: white;
+  border-left: 5px solid #3b82f6;
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.category h2 {
+  color: #1e3a8a;
+  margin-bottom: 12px;
+}
+
+.category ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.category li {
+  margin-bottom: 10px;
+}
+
+.category a {
+  text-decoration: none;
+  color: #2563eb;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.category a:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+/* UPDATED: make calc-grid display in 3 columns */
+.calc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 12px;
+}
+
+.calc-card {
+  background-color: #eff6ff;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  color: #1e3a8a;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  transition: background-color 0.2s ease;
+  text-align: center;
+}
+
+.calc-card:hover {
+  background-color: #dbeafe;
+}
+
+.footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9rem;
+  color: #64748b;
+  border-top: 1px solid #e2e8f0;
+  margin-top: 40px;
+}

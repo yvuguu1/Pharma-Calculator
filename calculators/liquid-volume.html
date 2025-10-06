@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Liquid Medication Dose Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 360px;
+      max-width: 95vw;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 2.2rem;
+      margin-bottom: 18px;
+      color: #1e293b;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 14px 0 6px;
+      font-weight: 600;
+      color: #dbeafe;
+      font-size: 1rem;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1rem;
+      border: 1.6px solid #93c5fd;
+      border-radius: 6px;
+      outline: none;
+      background: white;
+      color: #1e293b;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    input[type="number"]:hover,
+    input[type="number"]:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 6px #60a5faaa;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      margin-top: 14px;
+    }
+
+    button:hover {
+      background-color: #1e40af;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      background-color: #f9f9f9;
+      padding: 12px;
+      border-radius: 6px;
+      color: #1e293b;
+    }
+
+    .error {
+      background-color: #fecaca;
+      color: #991b1b;
+      border: 1.5px solid #f87171;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Liquid Medication Dose Calculator</h1>
+
+    <label for="desiredDose">Desired Dose (mg)</label>
+    <input type="number" id="desiredDose" step="any" min="0" required />
+
+    <label for="concentration">Concentration (mg/mL)</label>
+    <input type="number" id="concentration" step="any" min="0" required />
+
+    <label for="dilutionFactor">Dilution Factor</label>
+    <input type="number" id="dilutionFactor" step="any" min="0" value="1" required />
+
+    <button onclick="calculateVolume()">Calculate</button>
+
+    <p id="result"></p>
+
+    <p><a href="../index.html">← Back to Home</a></p>
+  </div>
+
+  <script>
+    function calculateVolume() {
+      const desiredDose = parseFloat(document.getElementById("desiredDose").value);
+      const concentration = parseFloat(document.getElementById("concentration").value);
+      const dilutionFactor = parseFloat(document.getElementById("dilutionFactor").value);
+      const resultElement = document.getElementById("result");
+
+      if (
+        isNaN(desiredDose) ||
+        isNaN(concentration) ||
+        isNaN(dilutionFactor) ||
+        desiredDose < 0 ||
+        concentration <= 0 ||
+        dilutionFactor <= 0
+      ) {
+        resultElement.textContent = "Please enter valid positive values for all fields.";
+        resultElement.classList.add("error");
+      } else {
+        const volume = (desiredDose * dilutionFactor) / concentration;
+        resultElement.textContent = `The required volume is: ${volume.toFixed(2)} mL`;
+        resultElement.classList.remove("error");
+      }
+    }
+  </script>
+</body>
+</html>

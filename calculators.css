@@ -1,0 +1,118 @@
+/* Reset & box sizing */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    background-color: #f0f4f8;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+  }
+  
+  .container {
+    background-color: white;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    width: 360px;
+    max-width: 90vw;
+    text-align: center;
+  }
+  
+  /* Headings */
+  h1 {
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 24px;
+    color: #2c3e50;
+  }
+  
+  /* Labels */
+  label {
+    display: block;
+    text-align: left;
+    margin: 14px 0 6px;
+    font-weight: 600;
+    color: #34495e;
+    font-size: 1rem;
+  }
+  
+  /* Inputs & selects */
+  input[type="number"],
+  select {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 1rem;
+    border: 1.6px solid #bdc3c7;
+    border-radius: 6px;
+    transition: border-color 0.3s ease;
+    outline: none;
+  }
+  
+  input[type="number"]:hover,
+  select:hover,
+  input[type="number"]:focus,
+  select:focus {
+    border-color: #2980b9;
+    box-shadow: 0 0 6px #2980b9aa;
+  }
+  
+  /* Result display */
+  .result {
+    margin-top: 24px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #27ae60;
+    min-height: 1.5em;
+  }
+  
+  /* Calculator list on home page (optional if not reused) */
+  .calc-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+  }
+  
+  .calc-list li {
+    margin: 12px 0;
+  }
+  
+  .calc-list a {
+    display: block;
+    background: #2a9d8f;
+    color: white;
+    text-decoration: none;
+    padding: 12px 0;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: background 0.2s ease;
+  }
+  
+  .calc-list a:hover {
+    background: #21867a;
+  }
+  
+  /* Back link */
+  a {
+    display: inline-block;
+    margin-top: 30px;
+    color: #2980b9;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+  }
+  
+  a:hover {
+    color: #1b4f72;
+    text-decoration: underline;
+  }
+  

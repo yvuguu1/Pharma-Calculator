@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blood Pressure Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 380px;
+      max-width: 95vw;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 2.2rem;
+      margin-bottom: 18px;
+      color: #1e293b;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 14px 0 6px;
+      font-weight: 600;
+      color: #dbeafe;
+      font-size: 1rem;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1rem;
+      border: 1.6px solid #93c5fd;
+      border-radius: 6px;
+      outline: none;
+      background: white;
+      color: #1e293b;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    input[type="number"]:hover,
+    input[type="number"]:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 6px #60a5faaa;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      margin-top: 14px;
+    }
+
+    button:hover {
+      background-color: #1e40af;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      background-color: #f9f9f9;
+      padding: 12px;
+      border-radius: 6px;
+      color: #1e293b;
+    }
+
+    .disclaimer {
+      margin-top: 20px;
+      font-size: 0.85rem;
+      color: #1e293b;
+      background-color: #fef9c3;
+      padding: 12px;
+      border-radius: 6px;
+      text-align: left;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Blood Pressure Calculator</h1>
+
+    <label for="systolic">Systolic Blood Pressure (mmHg):</label>
+    <input type="number" id="systolic" name="systolic" required>
+
+    <label for="diastolic">Diastolic Blood Pressure (mmHg):</label>
+    <input type="number" id="diastolic" name="diastolic" required>
+
+    <button id="calculate-btn">Calculate</button>
+
+    <div id="result" style="display: none;"></div>
+
+    <div class="disclaimer">
+      <strong>Disclaimer:</strong> This calculator provides general information based on standard guidelines. It is not a substitute for professional medical advice. Always consult with a healthcare provider for personalized guidance.<br><br>
+      <strong>Mean Arterial Pressure (MAP):</strong> Calculated as: (2 × Diastolic + Systolic) / 3. This represents average arterial pressure, important for assessing perfusion.
+    </div>
+
+    <p><a href="../index.html">← Back to Home</a></p>
+  </div>
+
+  <script>
+    document.getElementById("calculate-btn").addEventListener("click", function () {
+      var systolic = parseFloat(document.getElementById("systolic").value);
+      var diastolic = parseFloat(document.getElementById("diastolic").value);
+
+      if (isNaN(systolic) || isNaN(diastolic) || systolic <= 0 || diastolic <= 0) {
+        alert("Invalid input. Please enter valid blood pressure values.");
+        return;
+      }
+
+      var category = bloodPressureCategory(systolic, diastolic);
+      var map = calculateMAP(systolic, diastolic);
+      displayResult(category, map);
+    });
+
+    function bloodPressureCategory(systolic, diastolic) {
+      if (systolic < 120 && diastolic < 80) {
+        return "Normal (Less than 120/80 mmHg)";
+      } else if (systolic >= 120 && systolic < 130 && diastolic < 80) {
+        return "Elevated (120-129/<80 mmHg)";
+      } else if ((systolic >= 130 && systolic < 140) || (diastolic >= 80 && diastolic < 90)) {
+        return "Hypertension Stage 1 (130-139/80-89 mmHg)";
+      } else if ((systolic >= 140 && systolic < 180) || (diastolic >= 90 && diastolic < 120)) {
+        return "Hypertension Stage 2 (140-179/90-119 mmHg)";
+      } else {
+        return "Hypertensive Crisis (≥180/120 mmHg)";
+      }
+    }
+
+    function calculateMAP(systolic, diastolic) {
+      return Math.round((2 * diastolic + systolic) / 3);
+    }
+
+    function displayResult(category, map) {
+      var resultElement = document.getElementById("result");
+      resultElement.style.display = "block";
+
+      var mapStatus = (map >= 70 && map <= 100)
+        ? "Normal (70–100 mmHg)"
+        : "Not Normal (Outside 70–100 mmHg)";
+
+      resultElement.innerHTML =
+        `<p>Blood Pressure Category: <strong>${category}</strong></p>
+         <p>Mean Arterial Pressure (MAP): <strong>${map} mmHg</strong> — ${mapStatus}</p>`;
+    }
+  </script>
+</body>
+</html>

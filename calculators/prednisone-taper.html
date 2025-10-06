@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prednisone Taper Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 360px;
+      max-width: 95vw;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 2.2rem;
+      margin-bottom: 18px;
+      color: #1e293b;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 14px 0 6px;
+      font-weight: 600;
+      color: #dbeafe;
+      font-size: 1rem;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1rem;
+      border: 1.6px solid #93c5fd;
+      border-radius: 6px;
+      background: white;
+      color: #1e293b;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    input[type="number"]:hover,
+    input[type="number"]:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 6px #60a5faaa;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 10px 6px;
+    }
+
+    .btn:hover {
+      background-color: #1e40af;
+    }
+
+    #result {
+      font-weight: bold;
+      margin-top: 20px;
+      background-color: #f9f9f9;
+      padding: 12px;
+      font-size: 1.1rem;
+      border-radius: 6px;
+      color: #1e293b;
+    }
+
+    .taper-input {
+      margin-top: 20px;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Prednisone Taper Calculator</h1>
+    <form id="taper-form">
+      <label for="initial-dosage">Initial Dosage (tablets/day):</label>
+      <input type="number" id="initial-dosage" step="0.5" required />
+
+      <label for="initial-duration">Initial Duration (days):</label>
+      <input type="number" id="initial-duration" required />
+
+      <div id="taper-schedule">
+        <div class="taper-input">
+          <label>Taper Dosage (additional tablets/day):</label>
+          <input type="number" class="taper-dosage" step="0.5" required />
+          <label>Taper Duration (days):</label>
+          <input type="number" class="taper-duration" required />
+        </div>
+      </div>
+
+      <button type="button" class="btn" onclick="addTaper()">Add Taper</button>
+      <button type="submit" class="btn">Calculate</button>
+    </form>
+
+    <div id="result"></div>
+
+    <p><a href="../index.html">← Back to Home</a></p>
+  </div>
+
+  <script>
+    function addTaper() {
+      const taperSchedule = document.getElementById("taper-schedule");
+      const newTaperInput = document.createElement("div");
+      newTaperInput.classList.add("taper-input");
+      newTaperInput.innerHTML = `
+        <label>Taper Dosage (additional tablets/day):</label>
+        <input type="number" class="taper-dosage" step="0.5" required />
+        <label>Taper Duration (days):</label>
+        <input type="number" class="taper-duration" required />
+      `;
+      taperSchedule.appendChild(newTaperInput);
+    }
+
+    document.getElementById("taper-form").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const initialDosage = parseFloat(document.getElementById("initial-dosage").value);
+      const initialDuration = parseInt(document.getElementById("initial-duration").value);
+      const taperDosages = document.querySelectorAll(".taper-dosage");
+      const taperDurations = document.querySelectorAll(".taper-duration");
+
+      let totalInitialTablets = initialDosage * initialDuration;
+      let totalTaperTablets = 0;
+
+      for (let i = 0; i < taperDosages.length; i++) {
+        const taperDosage = parseFloat(taperDosages[i].value);
+        const taperDuration = parseInt(taperDurations[i].value);
+        totalTaperTablets += taperDosage * taperDuration;
+      }
+
+      const totalTabletsNeeded = Math.ceil(totalInitialTablets + totalTaperTablets);
+      document.getElementById("result").textContent = "Total Tablets Needed: " + totalTabletsNeeded;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vanishing Cream Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 360px;
+      max-width: 95vw;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 1.9rem;
+      margin-bottom: 18px;
+      color: #1e293b;
+    }
+
+    h2 {
+      font-size: 1.3rem;
+      margin-top: 20px;
+      color: #1e3a8a;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 14px 0 6px;
+      font-weight: 600;
+      color: #dbeafe;
+      font-size: 1rem;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1.6px solid #93c5fd;
+      border-radius: 6px;
+      background: white;
+      color: #1e293b;
+      margin-bottom: 12px;
+      outline: none;
+    }
+
+    input[type="number"]:hover,
+    input[type="number"]:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 6px #60a5faaa;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: bold;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    button:hover {
+      background-color: #1e40af;
+    }
+
+    .results, p, ol, ul {
+      text-align: left;
+      background-color: #f9f9f9;
+      padding: 12px;
+      border-radius: 6px;
+      color: #1e293b;
+      font-size: 0.95rem;
+      margin-top: 12px;
+      list-style-position: inside;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Vanishing Cream Calculator</h1>
+
+    <h2>Calculate Ingredients</h2>
+    <label for="totalWeight">Enter Total Weight (g):</label>
+    <input type="number" id="totalWeight" placeholder="Total weight in grams" required />
+    <button onclick="calculateIngredients()">Calculate</button>
+
+    <h2>Results</h2>
+    <div id="results" class="results"></div>
+
+    <h2>Formula</h2>
+    <ul>
+      <li>Stearic Acid: 25.0%</li>
+      <li>Triethanolamine (Sp.G. 1.126): 2.0%</li>
+      <li>Glycerin: 12.0%</li>
+      <li>Purified Water: 61.0%</li>
+    </ul>
+
+    <h2>Preparation Steps</h2>
+    <ol>
+      <li>Melt the stearic acid in a container using a water bath.</li>
+      <li>Dissolve the glycerin and triethanolamine in the water and heat to 70°C.</li>
+      <li>With gentle stirring (to avoid incorporating air), add the aqueous phase to the melted stearic acid.</li>
+    </ol>
+
+    <h2>Storage and Stability</h2>
+    <p>
+      Store in a tight, light-resistant container at room temperature.  
+      Keep away from excessive heat and light.
+    </p>
+
+    <a href="../pharmacy-compounding.html">← Back to Home</a>
+  </div>
+
+  <script>
+    function calculateIngredients() {
+      const totalWeight = parseFloat(document.getElementById('totalWeight').value);
+      if (isNaN(totalWeight) || totalWeight <= 0) {
+        document.getElementById('results').innerHTML = "Please enter a valid total weight.";
+        return;
+      }
+
+      const stearicAcid = (25.0 / 100) * totalWeight;
+      const triethanolamine = (2.0 / 100) * totalWeight;
+      const glycerin = (12.0 / 100) * totalWeight;
+      const purifiedWater = (61.0 / 100) * totalWeight;
+
+      document.getElementById('results').innerHTML = `
+        <p>Stearic Acid: ${stearicAcid.toFixed(2)} g</p>
+        <p>Triethanolamine: ${triethanolamine.toFixed(2)} g</p>
+        <p>Glycerin: ${glycerin.toFixed(2)} g</p>
+        <p>Purified Water: ${purifiedWater.toFixed(2)} g</p>
+      `;
+    }
+  </script>
+</body>
+</html>

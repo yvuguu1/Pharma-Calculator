@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Amoxicillin Oral Suspension Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 360px;
+      max-width: 95vw;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 1.9rem;
+      margin-bottom: 18px;
+      color: #1e293b;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      margin-top: 20px;
+      color: #1e3a8a;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      margin-top: 18px;
+      color: #1e3a8a;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 14px 0 6px;
+      font-weight: 600;
+      color: #dbeafe;
+      font-size: 1rem;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1.6px solid #93c5fd;
+      border-radius: 6px;
+      background: white;
+      color: #1e293b;
+      margin-bottom: 12px;
+      outline: none;
+    }
+
+    input[type="number"]:hover,
+    input[type="number"]:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 6px #60a5faaa;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: bold;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    button:hover {
+      background-color: #1e40af;
+    }
+
+    .results, ol, p {
+      text-align: left;
+      background-color: #f9f9f9;
+      padding: 12px;
+      border-radius: 6px;
+      color: #1e293b;
+      font-size: 0.95rem;
+      margin-top: 12px;
+      list-style-position: inside;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Amoxicillin Oral Suspension</h1>
+
+    <h2>Ingredient Calculator</h2>
+    <label for="volume">Total Volume (mL):</label>
+    <input type="number" id="volume" value="100" />
+
+    <button onclick="calculateIngredients()">Calculate</button>
+
+    <h3>Ingredient Amounts</h3>
+    <div id="results" class="results"></div>
+
+    <h2>Preparation Steps</h2>
+    <ol>
+      <li>Measure out the ingredients as per the calculations.</li>
+      <li>Mix the amoxicillin with sorbitol and xanthan gum.</li>
+      <li>Add the oral suspension vehicle gradually while stirring to achieve uniformity.</li>
+      <li>Add flavoring agents and preservatives.</li>
+      <li>Add the solvent to reach the desired volume.</li>
+    </ol>
+
+    <h2>Original Formula</h2>
+    <p>
+      Amoxicillin trihydrate: 125 mg per 5 mL<br>
+      Sorbitol: Approximately 1.5 to 2.5 g (as a sweetener)<br>
+      Xanthan Gum: About 0.5 g (as a thickening agent)<br>
+      Flavoring Agents: Varies (typically around 0.1 to 0.5 g)<br>
+      Preservatives: Sodium benzoate or potassium sorbate, generally around 0.1 g<br>
+      Vehicle (water or oral suspension vehicle): Sufficient to make 100 mL
+    </p>
+
+    <a href="../pharmacy-compounding.html">← Back to Home</a>
+  </div>
+
+  <script>
+    function calculateIngredients() {
+      const volume = document.getElementById('volume').value;
+
+      const amoxicillinPer5mL = 125; // mg
+      const sorbitolAmount = 2.0; // g (approximate)
+      const xanthanGumAmount = 0.5; // g (approximate)
+      const flavoringAmount = 0.2; // g (approximate)
+      const preservativeAmount = 0.1; // g (approximate)
+
+      const amoxicillinTotal = (amoxicillinPer5mL / 5) * volume;
+      const sorbitolTotal = sorbitolAmount * (volume / 100);
+      const xanthanGumTotal = xanthanGumAmount * (volume / 100);
+      const flavoringTotal = flavoringAmount * (volume / 100);
+      const preservativeTotal = preservativeAmount * (volume / 100);
+
+      const results = `
+        Amoxicillin: ${amoxicillinTotal.toFixed(2)} mg<br>
+        Sorbitol: ${sorbitolTotal.toFixed(2)} g<br>
+        Xanthan Gum: ${xanthanGumTotal.toFixed(2)} g<br>
+        Flavoring Agents: ${flavoringTotal.toFixed(2)} g<br>
+        Preservatives: ${preservativeTotal.toFixed(2)} g<br>
+        Add the solvent to reach the desired volume.
+      `;
+
+      document.getElementById('results').innerHTML = results;
+    }
+  </script>
+</body>
+</html>

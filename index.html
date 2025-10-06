@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pharma Calculator - Home</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    .tab-bar {
+      display: flex;
+      justify-content: center;
+      background-color: #1e3a8a;
+      padding: 10px 0;
+    }
+
+    .tab-bar button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0 12px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .tab-bar button:hover,
+    .tab-bar button.active {
+      background-color: #3b82f6;
+    }
+  </style>
+</head>
+<body>
+  <header class="main-header">
+    <h1>Pharma Calculator</h1>
+    <p>Choose a calculator category below</p>
+  </header>
+
+  <div class="tab-bar">
+    <button class="active">Dosage Calculators</button>
+    <button onclick="location.href='pharmaceutical-labs.html'">Pharmaceutical Labs</button>
+    <button onclick="location.href='pharmacy-compounding.html'">Pharmacy Compounding</button>
+  </div>
+
+  <main class="categories">
+    <section class="category">
+      <h2>Unit Conversions</h2>
+      <div class="calc-grid">
+        <a class="calc-card" href="unit-converter.html">Universal Unit Converter</a>
+      </div>
+    </section>
+
+    <section class="category">
+      <h2>Pharmacy Tools</h2>
+      <div class="calc-grid">
+        <a class="calc-card" href="calculators/sig-code-converter.html">Sig Code Converter</a>
+      </div>
+    </section>
+
+    <section class="category">
+      <h2>Dosage Calculations</h2>
+      <div class="calc-grid">
+        <a class="calc-card" href="calculators/dosage-calc.html">Dosage by Weight</a>
+        <a class="calc-card" href="calculators/pediatric-otc-dosing.html">Pediatric OTC Dosing</a>
+        <a class="calc-card" href="calculators/ear-eye-drop.html">Ear/Eye Drop Calculator</a>
+        <a class="calc-card" href="calculators/prednisone-taper.html">Prednisone Taper Calculator</a>
+        <a class="calc-card" href="calculators/drops-dosage.html">Dosage Measured by Drops</a>
+        <a class="calc-card" href="calculators/days-supply-pill.html">Days of Supply Calculator (Pill)</a>
+        <a class="calc-card" href="calculators/days-supply-liquid.html">Days of Supply Calculator (Liquid)</a>
+        <a class="calc-card" href="calculators/half-life-dosing.html">Dosage Over Multiple Half-Lives</a>
+        <a class="calc-card" href="calculators/weight-based-dosing.html">Dosage by Body Weight</a>
+        <a class="calc-card" href="calculators/a1c-glucose.html">A1C and Glucose</a>
+        <a class="calc-card" href="calculators/pill-dispensing.html">Pill Dispensing Calculator</a>
+        <a class="calc-card" href="calculators/liquid-dispensing.html">Liquid Dispensing Calculator</a>
+        <a class="calc-card" href="calculators/liquid-volume.html">Volume Calculator (Liquid)</a>
+        <a class="calc-card" href="calculators/blood-pressure.html">Blood Pressure Calculator</a>
+        <a class="calc-card" href="calculators/medication-cost.html">Medication Cost Calculator</a>
+        <a class="calc-card" href="calculators/insulin-quantity.html">Insulin Quantity Calculator</a>
+        <a class="calc-card" href="calculators/ozempic-days.html">Ozempic Days of Supply</a>
+        <a class="calc-card" href="calculators/synthroid-dispensing.html">Synthroid Dispensing</a>
+        <a class="calc-card" href="calculators/medication-quantity-cost.html">Medication Quantity/Cost</a>
+      </div>
+    </section>
+
+    <section class="category">
+      <h2>Dilution Calculations</h2>
+      <div class="calc-grid">
+        <a class="calc-card" href="calculators/dilution.html">IV Dilution Calculator</a>
+      </div>
+    </section>
+
+    <section class="category">
+      <h2>Pharmacy Calculations – Dilutions</h2>
+      <div class="calc-grid">
+        <a class="calc-card" href="calculators/basic-dilution-solid.html">Basic Dilution (Solid)</a>
+        <a class="calc-card" href="calculators/basic-dilution-liquid.html">Basic Dilution (Liquid)</a>
+        <a class="calc-card" href="calculators/multiple-dilution-weight.html">Multiple Dilution (Weight)</a>
+        <a class="calc-card" href="calculators/serial-dilution-vv.html">Serial Dilution (v/v)</a>
+        <a class="calc-card" href="calculators/serial-dilution-wv.html">Serial Dilution (w/v)</a>
+        <a class="calc-card" href="calculators/multiple-dilution-volume.html">Multiple Dilution (Volume)</a>
+        <a class="calc-card" href="calculators/mixed-dilution-vv.html">Mixed Dilution (v/v)</a>
+      </div>
+    </section>
+
+    <section class="category">
+      <h2>Estimated Dose Equivalents</h2>
+      <div class="calc-grid">
+        <a class="calc-card" href="calculators/topical-steroid.html">Topical Steroid Potency</a>
+        <a class="calc-card" href="calculators/benzo-conversion.html">Benzodiazepine Conversion</a>
+        <a class="calc-card" href="calculators/statin-conversion.html">Statin Dose Conversion</a>
+        <a class="calc-card" href="calculators/opioid-equivalency.html">Opioid Equivalency</a>
+        <a class="calc-card" href="calculators/steroid-conversion.html">Steroid Dose Conversion</a>
+        <a class="calc-card" href="calculators/beta-blocker.html">Beta Blocker Conversion</a>
+        <a class="calc-card" href="calculators/arb-conversion.html">ARB Dose Conversion</a>
+        <a class="calc-card" href="calculators/morphine-equivalent.html">Morphine Equivalent</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Pharma Calculator. All rights reserved.</p>
+  </footer>
+</body>
+</html>

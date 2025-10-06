@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pharmacy Eye Drop/Ear Drop Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 360px;
+      max-width: 95vw;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 2.2rem;
+      margin-bottom: 18px;
+      color: #1e293b;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 14px 0 6px;
+      font-weight: 600;
+      color: #dbeafe;
+      font-size: 1rem;
+    }
+
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1rem;
+      border: 1.6px solid #93c5fd;
+      border-radius: 6px;
+      outline: none;
+      background: white;
+      color: #1e293b;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    input[type="number"]:hover,
+    select:hover,
+    input[type="number"]:focus,
+    select:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 6px #60a5faaa;
+    }
+
+    .calculate-button {
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 14px;
+    }
+
+    .calculate-button:hover {
+      background-color: #1e40af;
+    }
+
+    .result {
+      font-weight: bold;
+      margin-top: 20px;
+      background-color: #f9f9f9;
+      padding: 12px;
+      font-size: 1.1rem;
+      border-radius: 6px;
+      color: #1e293b;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Eye/Ear Drop Calculator</h1>
+    <form onsubmit="calculate(event)">
+      <label for="dropsPerDose">Drops per Dose:</label>
+      <input type="number" id="dropsPerDose" required />
+
+      <label for="timesPerDay">Times Per Day:</label>
+      <input type="number" id="timesPerDay" required />
+
+      <label for="daysOfTherapy">Days of Therapy:</label>
+      <input type="number" id="daysOfTherapy" required />
+
+      <label for="dropsPerML">Drops per mL:</label>
+      <select id="dropsPerML">
+        <option value="10">10 drops/mL</option>
+        <option value="11">11 drops/mL</option>
+        <option value="12">12 drops/mL</option>
+        <option value="13">13 drops/mL</option>
+        <option value="14">14 drops/mL</option>
+        <option value="15" selected>15 drops/mL</option>
+        <option value="16">16 drops/mL</option>
+        <option value="17">17 drops/mL</option>
+        <option value="18">18 drops/mL</option>
+        <option value="19">19 drops/mL</option>
+        <option value="20">20 drops/mL</option>
+      </select>
+
+      <input type="submit" value="Calculate" class="calculate-button" />
+    </form>
+
+    <div class="result" id="result"></div>
+
+    <p><a href="../index.html">← Back to Home</a></p>
+  </div>
+
+  <script>
+    function calculate(event) {
+      event.preventDefault();
+      const dropsPerDose = parseInt(document.getElementById("dropsPerDose").value);
+      const timesPerDay = parseInt(document.getElementById("timesPerDay").value);
+      const daysOfTherapy = parseInt(document.getElementById("daysOfTherapy").value);
+      const dropsPerML = parseInt(document.getElementById("dropsPerML").value);
+
+      const totalDrops = dropsPerDose * timesPerDay * daysOfTherapy;
+      const totalVolume = (totalDrops / dropsPerML).toFixed(2);
+
+      document.getElementById("result").textContent =
+        `Total Drops Needed: ${totalDrops} | Total Volume (mL): ${totalVolume}`;
+    }
+  </script>
+</body>
+</html>

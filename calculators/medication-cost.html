@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Medication Cost Estimator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .calculator {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 380px;
+      max-width: 95vw;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    h2 {
+      margin-top: 0;
+      margin-bottom: 24px;
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #1e293b;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #dbeafe;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1rem;
+      border: 1.6px solid #93c5fd;
+      border-radius: 6px;
+      margin-bottom: 16px;
+      background: white;
+      color: #1e293b;
+      box-sizing: border-box;
+    }
+
+    input[type="number"]:hover,
+    input[type="number"]:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 6px #60a5faaa;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      margin-top: 14px;
+    }
+
+    button:hover {
+      background-color: #1e40af;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      background-color: #f9f9f9;
+      padding: 12px;
+      border-radius: 6px;
+      color: #1e293b;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h2>Medication Cost Estimator</h2>
+
+    <label for="costOfTablets">Cost of Tablets ($)</label>
+    <input type="number" id="costOfTablets" min="0" step="0.01" required />
+
+    <label for="markUpPercentage">Mark-up Percentage (%)</label>
+    <input type="number" id="markUpPercentage" min="0" step="0.01" required />
+
+    <label for="dispensingFee">Dispensing Fee ($)</label>
+    <input type="number" id="dispensingFee" min="0" step="0.01" required />
+
+    <button onclick="calculateTotalCost()">Calculate Total Cost</button>
+
+    <p class="result" id="totalCost"></p>
+
+    <p><a href="../index.html">← Back to Home</a></p>
+  </div>
+
+  <script>
+    function calculateTotalCost() {
+      const cost = parseFloat(document.getElementById('costOfTablets').value);
+      const markup = parseFloat(document.getElementById('markUpPercentage').value);
+      const fee = parseFloat(document.getElementById('dispensingFee').value);
+
+      if (isNaN(cost) || isNaN(markup) || isNaN(fee)) {
+        document.getElementById('totalCost').textContent = "Please enter valid numbers.";
+        return;
+      }
+
+      const markUpAmount = (markup / 100) * cost;
+      const total = cost + markUpAmount + fee;
+
+      document.getElementById('totalCost').textContent =
+        "Total cost to the patient: $" + total.toFixed(2);
+    }
+  </script>
+</body>
+</html>

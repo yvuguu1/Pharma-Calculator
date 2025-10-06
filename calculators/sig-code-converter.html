@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pharmacy Sig Code Converter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 360px;
+      max-width: 95vw;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 2.2rem;
+      color: #1e293b;
+      margin-bottom: 18px;
+    }
+
+    p {
+      margin-bottom: 10px;
+      color: #34495e;
+      font-weight: 500;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: white;
+      color: #1e293b;
+    }
+
+    .dropdown-content {
+      background-color: #f9f9f9;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      max-height: 160px;
+      overflow-y: auto;
+      margin-top: 4px;
+      display: none;
+      text-align: left;
+      z-index: 2;
+      position: relative;
+    }
+
+    .dropdown-content div {
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 14px;
+      color: #1e293b;
+    }
+
+    .dropdown-content div:hover {
+      background-color: #e0f2fe;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      margin-top: 12px;
+    }
+
+    #output {
+      margin-top: 16px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+      color: #1e293b;
+      min-height: 40px;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Pharmacy Sig Code Converter</h1>
+    <p>Start typing or select a sig code:</p>
+
+    <input type="text" id="sigCodeInput" placeholder="Enter or search for sig code..." oninput="filterSigCodes()" onfocus="showAllSigCodes()" autocomplete="off" />
+    <div id="sigCodeDropdown" class="dropdown-content"></div>
+
+    <button onclick="convertSigCode()">Convert</button>
+
+    <div id="output"></div>
+    <p><a href="../index.html">← Back to Home</a></p>
+  </div>
+
+  <script>
+    const sigCodes = {
+      "1qd": "Take 1 tablet by mouth once daily",
+      "2bid": "Take 2 tablets by mouth twice daily",
+      "1q6hprn": "Take 1 capsule by mouth every 6 hours as needed",
+      "1q8h": "Take 1 tablet by mouth every 8 hours",
+      "1qam": "Take 1 tablet by mouth in the morning",
+      "1qpm": "Take 1 tablet by mouth in the evening",
+      "inhale2puffsqam": "Inhale 2 puffs by mouth in the morning",
+      "inhale1puffq6h": "Inhale 1 puff every 6 hours",
+      "inhale2puffsqhs": "Inhale 2 puffs by mouth at bedtime",
+      "inhale1puffbid": "Inhale 1 puff twice daily",
+      "1q3hprn": "Take 1 tablet by mouth every 3 hours as needed",
+      "1qdpc": "Take 1 tablet by mouth once daily after meals"
+    };
+
+    const input = document.getElementById("sigCodeInput");
+    const dropdown = document.getElementById("sigCodeDropdown");
+
+    function insertSigCode(code) {
+      input.value = code;
+      dropdown.style.display = "none";
+    }
+
+    function filterSigCodes() {
+      const value = input.value.toLowerCase();
+      dropdown.innerHTML = "";
+      const matches = Object.keys(sigCodes).filter(code => code.includes(value));
+
+      if (matches.length === 0) {
+        dropdown.style.display = "none";
+        return;
+      }
+
+      matches.forEach(code => {
+        const div = document.createElement("div");
+        div.textContent = code;
+        div.onclick = () => insertSigCode(code);
+        dropdown.appendChild(div);
+      });
+      dropdown.style.display = "block";
+    }
+
+    function showAllSigCodes() {
+      dropdown.innerHTML = "";
+      Object.keys(sigCodes).forEach(code => {
+        const div = document.createElement("div");
+        div.textContent = code;
+        div.onclick = () => insertSigCode(code);
+        dropdown.appendChild(div);
+      });
+      dropdown.style.display = "block";
+    }
+
+    function convertSigCode() {
+      const code = input.value.toLowerCase();
+      const output = document.getElementById("output");
+      const instruction = sigCodes[code];
+
+      if (instruction) {
+        output.innerHTML = `<strong>Converted:</strong> ${instruction}`;
+      } else {
+        output.innerHTML = `<strong>Sig code not found.</strong>`;
+      }
+    }
+
+    // Hide dropdown when clicking outside
+    document.addEventListener('click', function (e) {
+      if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>

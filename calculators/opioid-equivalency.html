@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Opioid Dose Conversion Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f4f8;
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+    .container {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      width: 360px;
+      max-width: 95vw;
+      color: #1e293b;
+      text-align: center;
+    }
+    h1 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 2.2rem;
+      margin-bottom: 18px;
+      color: #1e293b;
+    }
+    label {
+      display: block;
+      text-align: left;
+      margin: 14px 0 6px;
+      font-weight: 600;
+      color: #dbeafe;
+      font-size: 1rem;
+    }
+    select, input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1rem;
+      border: 1.6px solid #93c5fd;
+      border-radius: 6px;
+      outline: none;
+      background: white;
+      color: #1e293b;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    select:hover, select:focus,
+    input[type="number"]:hover,
+    input[type="number"]:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 6px #60a5faaa;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      margin-top: 14px;
+      width: 100%;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #1e40af;
+    }
+    #result-container {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      background-color: #f9f9f9;
+      padding: 12px;
+      border-radius: 6px;
+      color: #1e293b;
+      min-height: 48px;
+      white-space: normal;
+    }
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Opioid Dose Conversion Calculator</h1>
+    
+    <label for="original-opioid">Original Opioid:</label>
+    <select id="original-opioid">
+      <option value="morphine">Morphine</option>
+      <option value="codeine">Codeine</option>
+      <option value="oxycodone">Oxycodone</option>
+      <option value="hydrocodone">Hydrocodone</option>
+      <option value="hydromorphone">Hydromorphone</option>
+      <option value="fentanyl">Fentanyl</option>
+      <option value="methadone">Methadone</option>
+      <option value="tramadol">Tramadol</option>
+      <option value="tapentadol">Tapentadol</option>
+    </select>
+    
+    <label for="original-dose">Original Dose (mg):</label>
+    <input type="number" id="original-dose" min="0" step="any" required />
+    
+    <label for="target-opioid">Target Opioid:</label>
+    <select id="target-opioid">
+      <option value="morphine">Morphine</option>
+      <option value="codeine">Codeine</option>
+      <option value="oxycodone">Oxycodone</option>
+      <option value="hydrocodone">Hydrocodone</option>
+      <option value="hydromorphone">Hydromorphone</option>
+      <option value="fentanyl">Fentanyl</option>
+      <option value="methadone">Methadone</option>
+      <option value="tramadol">Tramadol</option>
+      <option value="tapentadol">Tapentadol</option>
+    </select>
+    
+    <button onclick="convertDose()">Calculate Equivalent Dose</button>
+    
+    <div id="result-container"></div>
+    
+    <p><a href="../index.html">← Back to Home</a></p>
+  </div>
+
+  <script>
+    // Morphine equivalency factors relative to morphine 1 mg = 1
+    const morphineEquiv = {
+      morphine: 1,
+      codeine: 0.15,
+      oxycodone: 1.5,
+      hydrocodone: 1,
+      hydromorphone: 4,
+      fentanyl: 0.01, // fentanyl in mg converted as 100 mcg = 0.1 mg morphine equiv, so 1 mg fentanyl = 100 morphine equiv, but this is simplified for mg dosing
+      methadone: 5,
+      tramadol: 0.1,
+      tapentadol: 0.4
+    };
+
+    function convertDose() {
+      const originalOpioid = document.getElementById("original-opioid").value;
+      const targetOpioid = document.getElementById("target-opioid").value;
+      const originalDoseInput = document.getElementById("original-dose").value;
+      const resultContainer = document.getElementById("result-container");
+      
+      const originalDose = parseFloat(originalDoseInput);
+      if (isNaN(originalDose) || originalDose <= 0) {
+        resultContainer.textContent = "Please enter a valid dose greater than 0.";
+        return;
+      }
+
+      // Convert original dose to morphine equivalent
+      const morphineDose = originalDose * morphineEquiv[originalOpioid];
+      // Convert morphine equivalent dose to target opioid dose
+      const targetDose = morphineDose / morphineEquiv[targetOpioid];
+      
+      if (!morphineEquiv.hasOwnProperty(originalOpioid) || !morphineEquiv.hasOwnProperty(targetOpioid)) {
+        resultContainer.textContent = "Error: Opioid not recognized.";
+        return;
+      }
+
+      resultContainer.innerHTML = 
+        `${originalDose} mg of ${capitalize(originalOpioid)} is approximately equivalent to <br>` +
+        `<strong>${targetDose.toFixed(2)} mg</strong> of ${capitalize(targetOpioid)}.`;
+    }
+
+    function capitalize(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+  </script>
+</body>
+</html>

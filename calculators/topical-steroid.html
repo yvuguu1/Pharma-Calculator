@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Topical Steroid Potency Calculator</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 360px;
+      max-width: 95vw;
+      color: #1e293b;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 18px;
+      color: #1e293b;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 14px 0 6px;
+      font-weight: 600;
+      color: #dbeafe;
+      font-size: 1rem;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1rem;
+      border: 1.6px solid #93c5fd;
+      border-radius: 6px;
+      background: white;
+      color: #1e293b;
+      margin-bottom: 14px;
+      box-sizing: border-box;
+      outline: none;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    select:focus,
+    select:hover {
+      border-color: #60a5fa;
+      box-shadow: 0 0 6px #60a5faaa;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      margin-top: 10px;
+      width: 100%;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #1e40af;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 1rem;
+      font-weight: normal;
+      background-color: #f9f9f9;
+      padding: 12px;
+      border-radius: 6px;
+      color: #1e293b;
+      min-height: 48px;
+    }
+
+    #result h3 {
+      margin: 0 0 8px 0;
+      font-size: 1.1rem;
+      color: #0f172a;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Topical Steroid Potency Calculator</h1>
+
+    <label for="steroid_name">Select Steroid:</label>
+    <select id="steroid_name">
+      <option value="hydrocortisone">Hydrocortisone</option>
+      <option value="desonide">Desonide</option>
+      <option value="triamcinolone">Triamcinolone</option>
+      <option value="betamethasone">Betamethasone</option>
+      <option value="clobetasol">Clobetasol</option>
+      <option value="mometasone">Mometasone</option>
+      <option value="fluticasone">Fluticasone</option>
+      <option value="halobetasol">Halobetasol</option>
+      <option value="diflorasone">Diflorasone</option>
+      <option value="fluocinolone">Fluocinolone</option>
+      <option value="beclomethasone">Beclomethasone</option>
+      <option value="budesonide">Budesonide</option>
+      <option value="diflucortolone">Diflucortolone</option>
+      <option value="amcinonide">Amcinonide</option>
+      <option value="prednicarbate">Prednicarbate</option>
+      <option value="flurandrenolide">Flurandrenolide</option>
+      <option value="fluticasone furoate">Fluticasone Furoate</option>
+      <option value="tacrolimus">Tacrolimus (Variable - Non-steroidal)</option>
+      <option value="pimecrolimus">Pimecrolimus (Variable - Non-steroidal)</option>
+    </select>
+
+    <button onclick="calculatePotency()"><i class="fas fa-calculator"></i> Calculate Potency</button>
+
+    <div id="result"></div>
+
+    <p><a href="../index.html">← Back to Home</a></p>
+  </div>
+
+  <script>
+    function calculatePotency() {
+      const steroidName = document.getElementById('steroid_name').value.toLowerCase().trim();
+      const potencyLookup = {
+        "hydrocortisone": "Low",
+        "desonide": "Low to Medium",
+        "triamcinolone": "Medium",
+        "betamethasone": "High",
+        "clobetasol": "Very High",
+        "mometasone": "Medium to High",
+        "fluticasone": "High",
+        "halobetasol": "Very High",
+        "diflorasone": "High",
+        "fluocinolone": "High",
+        "beclomethasone": "Low to Medium",
+        "budesonide": "Medium",
+        "diflucortolone": "Medium to High",
+        "amcinonide": "High",
+        "prednicarbate": "Medium",
+        "flurandrenolide": "Medium",
+        "fluticasone furoate": "High",
+        "tacrolimus": "Variable (Non-steroidal)",
+        "pimecrolimus": "Variable (Non-steroidal)"
+      };
+
+      let potency = potencyLookup[steroidName] || "Unknown";
+      let displayName = document.getElementById('steroid_name').selectedOptions[0].text;
+
+      const resultHtml = `
+        <h3><i class='fas fa-flask'></i> Potency:</h3>
+        <p><strong>${displayName}</strong> → ${potency}</p>
+      `;
+      document.getElementById('result').innerHTML = resultHtml;
+    }
+  </script>
+</body>
+</html>

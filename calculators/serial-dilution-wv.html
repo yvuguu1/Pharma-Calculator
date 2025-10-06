@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Serial Dilution (w/v) Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 360px;
+      max-width: 95vw;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 2.2rem;
+      margin-bottom: 18px;
+      color: #1e293b;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 14px 0 6px;
+      font-weight: 600;
+      color: #dbeafe;
+      font-size: 1rem;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1rem;
+      border: 1.6px solid #93c5fd;
+      border-radius: 6px;
+      outline: none;
+      background: white;
+      color: #1e293b;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    input[type="number"]:hover,
+    input[type="number"]:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 6px #60a5faaa;
+    }
+
+    input[type="submit"] {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      margin-top: 14px;
+      width: 100%;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #1e40af;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      background-color: #f9f9f9;
+      padding: 12px;
+      border-radius: 6px;
+      color: #1e293b;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Serial Dilution (w/v)</h1>
+    <form id="dilutionCalculator">
+      <label for="initialVolume">Initial Volume (mL)</label>
+      <input type="number" id="initialVolume" step="any" value="500" required />
+
+      <label for="initialConcentration">Initial Concentration (% w/v)</label>
+      <input type="number" id="initialConcentration" step="any" value="20" required />
+
+      <label for="finalConcentration">Final Concentration (% w/v)</label>
+      <input type="number" id="finalConcentration" step="any" value="5" required />
+
+      <input type="submit" value="Calculate" />
+    </form>
+
+    <div id="result"></div>
+
+    <a href="../index.html">← Back to Home</a>
+  </div>
+
+  <script>
+    document.getElementById('dilutionCalculator').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const initialVolume = parseFloat(document.getElementById('initialVolume').value);
+      const initialConcentration = parseFloat(document.getElementById('initialConcentration').value);
+      const finalConcentration = parseFloat(document.getElementById('finalConcentration').value);
+      const resultContainer = document.getElementById('result');
+
+      if (initialConcentration < finalConcentration) {
+        resultContainer.textContent = "Error: Final concentration must be less than or equal to the initial concentration.";
+        return;
+      }
+
+      const finalVolume = (initialVolume * initialConcentration) / finalConcentration;
+      resultContainer.textContent =
+        `To achieve a ${finalConcentration}% w/v solution, dilute ${initialVolume} mL of a ${initialConcentration}% w/v solution to ${finalVolume.toFixed(2)} mL.`;
+    });
+  </script>
+</body>
+</html>

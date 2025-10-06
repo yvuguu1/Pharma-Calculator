@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Drug Metabolic Rate Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      max-width: 95vw;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #1e293b;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 14px 0 6px;
+      font-weight: 600;
+      color: #dbeafe;
+      font-size: 1rem;
+    }
+
+    input[type="number"], select {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1rem;
+      border: 1.6px solid #93c5fd;
+      border-radius: 6px;
+      outline: none;
+      background: white;
+      color: #1e293b;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    input:focus, select:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 6px #60a5faaa;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      margin-top: 12px;
+    }
+
+    #addRowBtn, #calculateBtn {
+      background-color: #2563eb;
+      color: white;
+    }
+
+    #addRowBtn:hover, #calculateBtn:hover {
+      background-color: #1e40af;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      text-align: center;
+      padding: 6px 4px;
+      font-size: 0.9rem;
+    }
+
+    th {
+      color: #f1f5f9;
+    }
+
+    #result {
+      margin-top: 20px;
+      background-color: #f9f9f9;
+      padding: 14px;
+      border-radius: 6px;
+      font-size: 1rem;
+      color: #1e293b;
+      text-align: left;
+    }
+
+    .metabolic-rate {
+      margin-bottom: 12px;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Drug Metabolic Rate Calculator</h1>
+
+    <label for="enzymeConcentration">Enzyme Concentration (mg/mL)</label>
+    <input type="number" id="enzymeConcentration" step="any" />
+
+    <label for="incubationTime">Incubation Time (min)</label>
+    <input type="number" id="incubationTime" step="any" />
+
+    <table id="concentrationTable">
+      <tr>
+        <th>Substrate</th>
+        <th>Metabolite</th>
+      </tr>
+      <tr>
+        <td><input type="number" step="any" /></td>
+        <td><input type="number" step="any" /></td>
+      </tr>
+    </table>
+
+    <button id="addRowBtn" onclick="addRow()">Add Concentration</button>
+
+    <label for="metaboliteUnit">Metabolite Unit</label>
+    <select id="metaboliteUnit">
+      <option value="micromol/mL">umol/mL</option>
+      <option value="nanomol/mL">nmol/mL</option>
+    </select>
+
+    <button id="calculateBtn" onclick="calculate()">Calculate</button>
+
+    <div id="result"></div>
+
+    <a href="../pharmaceutical-labs.html">← Back to Home</a>
+  </div>
+
+  <script>
+    function addRow() {
+      const table = document.getElementById("concentrationTable");
+      const newRow = table.insertRow();
+      newRow.innerHTML = `
+        <td><input type="number" step="any" /></td>
+        <td><input type="number" step="any" /></td>
+      `;
+    }
+
+    function calculate() {
+      const enzymeConcentration = parseFloat(document.getElementById("enzymeConcentration").value);
+      const incubationTime = parseFloat(document.getElementById("incubationTime").value);
+      const metaboliteUnit = document.getElementById("metaboliteUnit").value;
+      const rows = document.getElementById("concentrationTable").getElementsByTagName("tr");
+
+      const resultContainer = document.getElementById("result");
+      resultContainer.innerHTML = "";
+
+      for (let i = 1; i < rows.length; i++) {
+        const substrateInput = rows[i].cells[0].querySelector("input");
+        const metaboliteInput = rows[i].cells[1].querySelector("input");
+
+        const substrate = parseFloat(substrateInput.value);
+        const metabolite = parseFloat(metaboliteInput.value);
+
+        if (!isNaN(substrate) && !isNaN(metabolite) && enzymeConcentration > 0 && incubationTime > 0) {
+          let rate = metabolite / (enzymeConcentration * incubationTime);
+          if (metaboliteUnit === "micromol/mL") rate *= 1000;
+
+          const rounded = rate.toFixed(2);
+
+          resultContainer.innerHTML += `
+            <div class="metabolic-rate">
+              <strong>Substrate:</strong> ${substrate}<br/>
+              <strong>Metabolite:</strong> ${metabolite} ${metaboliteUnit}<br/>
+              <strong>Rate:</strong> ${rounded} nmol/min/mg protein
+            </div><hr/>
+          `;
+        }
+      }
+
+      if (resultContainer.innerHTML === "") {
+        resultContainer.innerHTML = "Please fill in all required values.";
+      }
+    }
+  </script>
+</body>
+</html>

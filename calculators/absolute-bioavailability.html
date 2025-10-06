@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Absolute Bioavailability F(%) Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 380px;
+      max-width: 95vw;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 2.2rem;
+      margin-bottom: 18px;
+      color: #1e293b;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 14px 0 6px;
+      font-weight: 600;
+      color: #dbeafe;
+      font-size: 1rem;
+    }
+
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1rem;
+      border: 1.6px solid #93c5fd;
+      border-radius: 6px;
+      outline: none;
+      background: white;
+      color: #1e293b;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    input[type="number"]:hover,
+    select:hover,
+    input[type="number"]:focus,
+    select:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 6px #60a5faaa;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      margin-top: 14px;
+    }
+
+    button:hover {
+      background-color: #1e40af;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      background-color: #f9f9f9;
+      padding: 12px;
+      border-radius: 6px;
+      color: #1e293b;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Absolute Bioavailability F (%)</h1>
+
+    <label for="AUCpo">AUC (p.o.):</label>
+    <input type="number" id="AUCpo" step="any" required>
+    <select id="unitAUCpo">
+      <option value="microgram">µg·h/L</option>
+      <option value="milligram">mg·h/L</option>
+    </select>
+
+    <label for="AUCiv">AUC (i.v.):</label>
+    <input type="number" id="AUCiv" step="any" required>
+    <select id="unitAUCiv">
+      <option value="microgram">µg·h/L</option>
+      <option value="milligram">mg·h/L</option>
+    </select>
+
+    <label for="dosePo">Dose (p.o.):</label>
+    <input type="number" id="dosePo" step="any" required>
+    <select id="unitDosePo">
+      <option value="microgram">µg/kg</option>
+      <option value="milligram">mg/kg</option>
+    </select>
+
+    <label for="doseIv">Dose (i.v.):</label>
+    <input type="number" id="doseIv" step="any" required>
+    <select id="unitDoseIv">
+      <option value="microgram">µg/kg</option>
+      <option value="milligram">mg/kg</option>
+    </select>
+
+    <button onclick="calculate()">Calculate</button>
+
+    <div id="result"></div>
+
+    <a href="../pharmaceutical-labs.html">← Back to Home</a>
+  </div>
+
+  <script>
+    function calculate() {
+      let AUCpo = parseFloat(document.getElementById("AUCpo").value);
+      let AUCiv = parseFloat(document.getElementById("AUCiv").value);
+      let dosePo = parseFloat(document.getElementById("dosePo").value);
+      let doseIv = parseFloat(document.getElementById("doseIv").value);
+      let unitAUCpo = document.getElementById("unitAUCpo").value;
+      let unitAUCiv = document.getElementById("unitAUCiv").value;
+      let unitDosePo = document.getElementById("unitDosePo").value;
+      let unitDoseIv = document.getElementById("unitDoseIv").value;
+
+      if (unitAUCpo === "microgram") AUCpo /= 1000;
+      if (unitAUCiv === "microgram") AUCiv /= 1000;
+      if (unitDosePo === "microgram") dosePo /= 1000;
+      if (unitDoseIv === "microgram") doseIv /= 1000;
+
+      if (AUCpo > 0 && AUCiv > 0 && dosePo > 0 && doseIv > 0) {
+        let result = (AUCpo * doseIv) / (AUCiv * dosePo) * 100;
+        document.getElementById("result").innerText = "Result: " + result.toFixed(2) + "%";
+      } else {
+        document.getElementById("result").innerText = "Please enter all values correctly.";
+      }
+    }
+  </script>
+</body>
+</html>

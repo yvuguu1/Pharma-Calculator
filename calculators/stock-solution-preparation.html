@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stock Solution Preparation Calculator</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 460px;
+      max-width: 95vw;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 2.2rem;
+      margin-bottom: 8px;
+      color: #1e293b;
+    }
+
+    h2 {
+      font-weight: 500;
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      color: #1e293bdd;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 14px 0 6px;
+      font-weight: 600;
+      color: #dbeafe;
+      font-size: 1rem;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      border: 1.6px solid #93c5fd;
+      border-radius: 6px;
+      background: white;
+      color: #1e293b;
+      margin-bottom: 12px;
+    }
+
+    input[type="number"]:hover,
+    input[type="number"]:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 6px #60a5faaa;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      font-weight: bold;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+
+    .btn:hover {
+      background-color: #1e40af;
+    }
+
+    #result {
+      font-weight: bold;
+      margin-top: 20px;
+      background-color: #f9f9f9;
+      padding: 14px;
+      font-size: 1.1rem;
+      border-radius: 6px;
+      color: #1e293b;
+      min-height: 36px;
+      width: 100%;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Stock Solution Preparation</h1>
+    <h2>(10 mM Stock Solution)</h2>
+
+    <label for="powderWeight">Powder Weight (mg):</label>
+    <input type="number" id="powderWeight" placeholder="Enter powder weight" min="0" step="any" />
+
+    <label for="molecularWeight">Molecular Weight (g/mol):</label>
+    <input type="number" id="molecularWeight" placeholder="Enter molecular weight" min="0" step="any" />
+
+    <button class="btn" onclick="calculate()">Calculate</button>
+
+    <div id="result"></div>
+
+    <a href="../pharmaceutical-labs.html">← Back to Home</a>
+  </div>
+
+  <script>
+    function calculate() {
+      const powderWeight = parseFloat(document.getElementById("powderWeight").value);
+      const molecularWeight = parseFloat(document.getElementById("molecularWeight").value);
+      const resultEl = document.getElementById("result");
+
+      if (isNaN(powderWeight) || powderWeight <= 0 || isNaN(molecularWeight) || molecularWeight <= 0) {
+        resultEl.textContent = "Please enter valid positive numbers for both fields.";
+        return;
+      }
+
+      const volumeDMSO = (powderWeight / molecularWeight) * 100000;
+      resultEl.innerHTML = `Volume of DMSO needed to prepare 10 mM stock solution: <strong>${volumeDMSO.toFixed(2)} µL</strong>`;
+    }
+  </script>
+</body>
+</html>

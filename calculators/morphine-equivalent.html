@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MME Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 16px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    select, input[type="text"] {
+      padding: 10px;
+      font-size: 1rem;
+      border: 1.6px solid #93c5fd;
+      border-radius: 6px;
+      outline: none;
+      background: white;
+      color: #1e293b;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    select:hover, input:hover, select:focus, input:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 6px #60a5faaa;
+    }
+
+    .add-button, .calculate-button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      margin-top: 10px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .add-button {
+      background-color: #16a34a;
+      color: white;
+    }
+
+    .add-button:hover {
+      background-color: #15803d;
+    }
+
+    .calculate-button {
+      background-color: #2563eb;
+      color: white;
+    }
+
+    .calculate-button:hover {
+      background-color: #1e40af;
+    }
+
+    #result-container {
+      margin-top: 20px;
+      background-color: #f9f9f9;
+      padding: 16px;
+      border-radius: 6px;
+      font-size: 1.05rem;
+      text-align: left;
+    }
+
+    .disclaimer {
+      font-size: 0.9rem;
+      color: #e0f2fe;
+      margin-top: 24px;
+      text-align: center;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>MME Calculator</h1>
+    <form id="med-form">
+      <div id="inputs-container"></div>
+      <button type="button" class="add-button" onclick="addOpioidInput()">+ Add Opioid</button>
+      <button type="button" class="calculate-button" onclick="calculateTotalMED()">Calculate Total MME</button>
+    </form>
+    <div id="result-container"></div>
+    <div class="disclaimer">This calculator provides approximate values. Always consult with a healthcare professional for accurate dosing information.</div>
+    <a href="../index.html">← Back to Home</a>
+  </div>
+
+  <script>
+    const opioidOptions = [
+      { name: 'Morphine', conversionFactor: 1.0 },
+      { name: 'Oxycodone', conversionFactor: 1.5 },
+      { name: 'Hydrocodone', conversionFactor: 0.9 },
+      { name: 'Codeine', conversionFactor: 0.15 },
+      { name: 'Fentanyl', conversionFactor: 100 },
+      { name: 'OxyContin', conversionFactor: 1.5 },
+      { name: 'Tramadol', conversionFactor: 0.1 },
+      { name: 'Methadone', conversionFactor: 3.0 },
+      { name: 'Hydromorphone', conversionFactor: 4.0 },
+      { name: 'Tapentadol (Nucynta)', conversionFactor: 0.4 }
+    ];
+
+    function addOpioidInput() {
+      const inputsContainer = document.getElementById('inputs-container');
+      const inputDiv = document.createElement('div');
+      inputDiv.classList.add('input-group');
+
+      const selectInput = document.createElement('select');
+      opioidOptions.forEach(option => {
+        const opt = document.createElement('option');
+        opt.value = option.name;
+        opt.textContent = option.name;
+        selectInput.appendChild(opt);
+      });
+
+      const doseInput = document.createElement('input');
+      doseInput.type = 'text';
+      doseInput.placeholder = 'Dose (mg)';
+      doseInput.name = 'opioid-dose';
+
+      const quantityInput = document.createElement('input');
+      quantityInput.type = 'text';
+      quantityInput.placeholder = 'Quantity per Day';
+      quantityInput.name = 'opioid-quantity';
+
+      inputDiv.appendChild(selectInput);
+      inputDiv.appendChild(doseInput);
+      inputDiv.appendChild(quantityInput);
+      inputsContainer.appendChild(inputDiv);
+    }
+
+    function calculateTotalMED() {
+      const inputs = document.querySelectorAll('#inputs-container > .input-group');
+      let totalMME = 0;
+
+      inputs.forEach(inputDiv => {
+        const opioidType = inputDiv.querySelector('select').value;
+        const dose = parseFloat(inputDiv.querySelector('input[name="opioid-dose"]').value) || 0;
+        const qty = parseFloat(inputDiv.querySelector('input[name="opioid-quantity"]').value) || 0;
+
+        const opioid = opioidOptions.find(opt => opt.name === opioidType);
+        if (opioid) {
+          totalMME += dose * qty * opioid.conversionFactor;
+        }
+      });
+
+      document.getElementById('result-container').innerHTML = `
+        <div><span style="font-weight:bold">Total Morphine Equivalent Dose:</span> ${totalMME.toFixed(2)} mg</div>
+      `;
+    }
+
+    // Add initial input group on load
+    window.onload = addOpioidInput;
+  </script>
+</body>
+</html>

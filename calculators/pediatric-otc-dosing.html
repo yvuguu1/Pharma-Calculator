@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pediatric OTC Medication Dosing Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      background-color: #60a5fa; /* Light blue */
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 360px;
+      max-width: 95vw;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 2.2rem;
+      margin-bottom: 18px;
+      color: #1e293b;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 14px 0 6px;
+      font-weight: 600;
+      color: #dbeafe;
+      font-size: 1rem;
+    }
+
+    input[type="number"],
+    select {
+      width: 100%; /* consistent width */
+      padding: 10px 12px;
+      font-size: 1rem;
+      border: 1.6px solid #93c5fd;
+      border-radius: 6px;
+      outline: none;
+      background: white;
+      color: #1e293b;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    input[type="number"]:hover,
+    select:hover,
+    input[type="number"]:focus,
+    select:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 6px #60a5faaa;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      margin-top: 14px;
+    }
+
+    button:hover {
+      background-color: #1e40af;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      background-color: #f9f9f9;
+      padding: 12px;
+      border-radius: 6px;
+      color: #1e293b;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Pediatric OTC Medication Dosing</h1>
+
+    <label for="weight">Child's Weight</label>
+    <input type="number" id="weight" min="1" placeholder="Enter weight" required />
+
+    <label for="unit">Weight Unit</label>
+    <select id="unit">
+      <option value="lb">Pounds (lb)</option>
+      <option value="kg">Kilograms (kg)</option>
+    </select>
+
+    <label for="drug">Select Medication</label>
+    <select id="drug">
+      <option value="tylenol">Tylenol (Acetaminophen)</option>
+      <option value="benadryl">Benadryl (Diphenhydramine)</option>
+      <option value="motrin">Motrin/Ibuprofen</option>
+    </select>
+
+    <button onclick="calculateDosage()">Calculate Dosage</button>
+
+    <div id="result"></div>
+
+    <p><a href="../index.html">← Back to Home</a></p>
+  </div>
+
+  <script>
+    function calculateDosage() {
+      const weightInput = parseFloat(document.getElementById('weight').value);
+      const unit = document.getElementById('unit').value;
+      const weight = unit === 'lb' ? weightInput : weightInput * 2.20462;
+      const drug = document.getElementById('drug').value;
+      let dosage;
+
+      if (drug === 'tylenol') {
+        if (weight >= 24 && weight <= 35) dosage = 5;
+        else if (weight >= 36 && weight <= 47) dosage = 7.5;
+        else if (weight >= 48 && weight <= 59) dosage = 10;
+        else if (weight >= 60 && weight <= 71) dosage = 12.5;
+        else if (weight >= 72 && weight <= 95) dosage = 15;
+        else return displayErrorMessage();
+        displayResult(dosage, 5);
+      } else if (drug === 'benadryl') {
+        if (weight >= 11 && weight <= 16) dosage = 2.5;
+        else if (weight >= 17 && weight <= 21) dosage = 3.75;
+        else if (weight >= 22 && weight <= 26) dosage = 5;
+        else if (weight >= 27 && weight <= 32) dosage = 6.25;
+        else if (weight >= 33 && weight <= 37) dosage = 7.5;
+        else if (weight >= 38 && weight <= 43) dosage = 8.75;
+        else if (weight >= 44 && weight <= 54) dosage = 10;
+        else if (weight >= 55 && weight <= 65) dosage = 12.5;
+        else if (weight >= 66 && weight <= 76) dosage = 15;
+        else if (weight >= 77 && weight <= 87) dosage = 17.5;
+        else if (weight >= 88) dosage = 20;
+        else return displayErrorMessage();
+        displayResult(dosage, 4);
+      } else if (drug === 'motrin') {
+        if (weight >= 12 && weight <= 17) dosage = 2.5;
+        else if (weight >= 18 && weight <= 23) dosage = 3.75;
+        else if (weight >= 24 && weight <= 35) dosage = 5;
+        else if (weight >= 36 && weight <= 47) dosage = 7.5;
+        else if (weight >= 48 && weight <= 59) dosage = 10;
+        else if (weight >= 60 && weight <= 71) dosage = 12.5;
+        else if (weight >= 72 && weight <= 95) dosage = 15;
+        else return displayErrorMessage();
+        displayResult(dosage, 4);
+      }
+    }
+
+    function displayErrorMessage() {
+      document.getElementById('result').innerHTML = "<p>No dosing recommendation available for the provided weight.</p>";
+    }
+
+    function displayResult(dosage, maxDosesPerDay) {
+      document.getElementById('result').innerHTML =
+        `<p>Recommended dosage: <strong>${dosage} mL</strong></p>
+         <p>Max doses in 24 hours: <strong>${maxDosesPerDay}</strong></p>`;
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Beta Blocker Equivalent Estimator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 360px;
+      max-width: 95vw;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 2.2rem;
+      margin-bottom: 18px;
+      color: #1e293b;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 14px 0 6px;
+      font-weight: 600;
+      color: #dbeafe;
+      font-size: 1rem;
+    }
+
+    select, input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1rem;
+      border: 1.6px solid #93c5fd;
+      border-radius: 6px;
+      outline: none;
+      background: white;
+      color: #1e293b;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    select:hover,
+    select:focus,
+    input[type="number"]:hover,
+    input[type="number"]:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 6px #60a5faaa;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      margin-top: 10px;
+    }
+
+    #calculateButton {
+      background-color: #2563eb;
+      color: white;
+    }
+
+    #calculateButton:hover {
+      background-color: #1e40af;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      background-color: #f9f9f9;
+      padding: 12px;
+      border-radius: 6px;
+      color: #1e293b;
+    }
+
+    .error-message {
+      background-color: #fecaca;
+      color: #991b1b;
+      border: 1.5px solid #f87171;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Beta Blocker Equivalent Estimator</h1>
+
+    <label for="sourceDrug">Source Drug</label>
+    <select id="sourceDrug">
+      <option value="acebutolol">Acebutolol</option>
+      <option value="atenolol">Atenolol</option>
+      <option value="bisoprolol">Bisoprolol</option>
+      <option value="carvedilol">Carvedilol</option>
+      <option value="labetalol">Labetalol</option>
+      <option value="metoprolol">Metoprolol</option>
+      <option value="nadolol">Nadolol</option>
+      <option value="oxprenolol">Oxprenolol</option>
+      <option value="pindolol">Pindolol</option>
+      <option value="propranolol">Propranolol</option>
+      <option value="timolol">Timolol</option>
+      <option value="nevidolol">Nevidolol</option>
+    </select>
+
+    <label for="targetDrug">Target Drug</label>
+    <select id="targetDrug">
+      <option value="acebutolol">Acebutolol</option>
+      <option value="atenolol">Atenolol</option>
+      <option value="bisoprolol">Bisoprolol</option>
+      <option value="carvedilol">Carvedilol</option>
+      <option value="labetalol">Labetalol</option>
+      <option value="metoprolol">Metoprolol</option>
+      <option value="nadolol">Nadolol</option>
+      <option value="oxprenolol">Oxprenolol</option>
+      <option value="pindolol">Pindolol</option>
+      <option value="propranolol">Propranolol</option>
+      <option value="timolol">Timolol</option>
+      <option value="nevidolol">Nevidolol</option>
+    </select>
+
+    <label for="sourceDose">Source Dose (mg)</label>
+    <input type="number" id="sourceDose" step="0.01" required />
+
+    <button id="calculateButton" type="button" onclick="calculateEquivalent()">Calculate Equivalent Dose</button>
+
+    <div id="result"></div>
+
+    <a href="../index.html">← Back to Home</a>
+  </div>
+
+  <script>
+    const conversionTable = {
+      acebutolol: { acebutolol: 1, atenolol: 0.25, bisoprolol: 0.025, carvedilol: 0.125, labetalol: 1, metoprolol: 0.5, nadolol: 0.4, oxprenolol: 0.4, pindolol: 0.0375, propranolol: 0.4, timolol: 0.05, nevidolol: 0.025 },
+      atenolol: { acebutolol: 4, atenolol: 1, bisoprolol: 0.1, carvedilol: 0.5, labetalol: 4, metoprolol: 2, nadolol: 1.6, oxprenolol: 1.6, pindolol: 0.15, propranolol: 1.6, timolol: 0.2, nevidolol: 0.1 },
+      bisoprolol: { acebutolol: 40, atenolol: 10, bisoprolol: 1, carvedilol: 5, labetalol: 40, metoprolol: 20, nadolol: 16, oxprenolol: 16, pindolol: 1.5, propranolol: 16, timolol: 2, nevidolol: 1 },
+      carvedilol: { acebutolol: 8, atenolol: 2, bisoprolol: 0.2, carvedilol: 1, labetalol: 8, metoprolol: 4, nadolol: 3.2, oxprenolol: 3.2, pindolol: 0.3, propranolol: 3.2, timolol: 0.4, nevidolol: 0.2 },
+      labetalol: { acebutolol: 1, atenolol: 0.25, bisoprolol: 0.025, carvedilol: 0.125, labetalol: 1, metoprolol: 0.5, nadolol: 0.4, oxprenolol: 0.4, pindolol: 0.0375, propranolol: 0.4, timolol: 0.05, nevidolol: 0.025 },
+      metoprolol: { acebutolol: 2, atenolol: 0.5, bisoprolol: 0.05, carvedilol: 0.25, labetalol: 2, metoprolol: 1, nadolol: 0.8, oxprenolol: 0.8, pindolol: 0.075, propranolol: 0.8, timolol: 0.1, nevidolol: 0.05 },
+      nadolol: { acebutolol: 2.5, atenolol: 0.625, bisoprolol: 0.0625, carvedilol: 0.3125, labetalol: 2.5, metoprolol: 1.25, nadolol: 1, oxprenolol: 1, pindolol: 0.09375, propranolol: 1, timolol: 0.125, nevidolol: 0.0625 },
+      oxprenolol: { acebutolol: 2.5, atenolol: 0.625, bisoprolol: 0.0625, carvedilol: 0.3125, labetalol: 2.5, metoprolol: 1.25, nadolol: 1, oxprenolol: 1, pindolol: 0.09375, propranolol: 1, timolol: 0.125, nevidolol: 0.0625 },
+      pindolol: { acebutolol: 26.67, atenolol: 6.67, bisoprolol: 0.667, carvedilol: 3.33, labetalol: 26.67, metoprolol: 13.33, nadolol: 10.67, oxprenolol: 10.67, pindolol: 1, propranolol: 10.67, timolol: 1.33, nevidolol: 0.667 },
+      propranolol: { acebutolol: 2.5, atenolol: 0.625, bisoprolol: 0.0625, carvedilol: 0.3125, labetalol: 2.5, metoprolol: 1.25, nadolol: 1, oxprenolol: 1, pindolol: 0.09375, propranolol: 1, timolol: 0.125, nevidolol: 0.0625 },
+      timolol: { acebutolol: 20, atenolol: 5, bisoprolol: 0.5, carvedilol: 2.5, labetalol: 20, metoprolol: 10, nadolol: 8, oxprenolol: 8, pindolol: 0.75, propranolol: 8, timolol: 1, nevidolol: 0.5 },
+      nevidolol: { acebutolol: 40, atenolol: 10, bisoprolol: 1, carvedilol: 5, labetalol: 40, metoprolol: 20, nadolol: 16, oxprenolol: 16, pindolol: 1.5, propranolol: 16, timolol: 2, nevidolol: 1 }
+    };
+
+    function capitalize(word) {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    }
+
+    function calculateEquivalent() {
+      const source = document.getElementById("sourceDrug").value;
+      const target = document.getElementById("targetDrug").value;
+      const dose = parseFloat(document.getElementById("sourceDose").value);
+      const result = document.getElementById("result");
+
+      if (isNaN(dose) || dose <= 0) {
+        result.textContent = "Please enter a valid dose.";
+        result.classList.add("error-message");
+        return;
+      }
+
+      const factor = conversionTable[source]?.[target];
+      if (!factor) {
+        result.textContent = "Invalid source or target drug.";
+        result.classList.add("error-message");
+        return;
+      }
+
+      const converted = dose * factor;
+      result.textContent = `Equivalent Dose of ${capitalize(target)}: ${converted.toFixed(2)} mg`;
+      result.classList.remove("error-message");
+    }
+  </script>
+</body>
+</html>

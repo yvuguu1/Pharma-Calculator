@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Multiple Dilutions Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 360px;
+      max-width: 95vw;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 2.2rem;
+      margin-bottom: 12px;
+      color: #1e293b;
+    }
+
+    .note {
+      font-style: italic;
+      font-size: 0.9rem;
+      color: #dbeafe;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 14px 0 6px;
+      font-weight: 600;
+      color: #dbeafe;
+      font-size: 1rem;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1rem;
+      border: 1.6px solid #93c5fd;
+      border-radius: 6px;
+      outline: none;
+      background: white;
+      color: #1e293b;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    input:hover,
+    input:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 6px #60a5faaa;
+    }
+
+    button,
+    input[type="submit"] {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      margin-top: 14px;
+      width: 100%;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #1e40af;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      background-color: #f9f9f9;
+      padding: 12px;
+      border-radius: 6px;
+      color: #1e293b;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Multiple Dilutions</h1>
+    <p class="note">Calculate the weight of ingredient needed for a dilution that results in a desired final concentration.</p>
+
+    <form id="multipleDilutionsCalculator">
+      <label for="totalVolume">Total Volume (mL)</label>
+      <input type="number" id="totalVolume" step="any" required />
+
+      <label for="volumeTaken">Volume Taken (mL)</label>
+      <input type="number" id="volumeTaken" step="any" required />
+
+      <label for="volumeDiluted">Volume Diluted (mL)</label>
+      <input type="number" id="volumeDiluted" step="any" required />
+
+      <label for="finalConcentration">Final Concentration (% w/v)</label>
+      <input type="number" id="finalConcentration" step="any" required />
+
+      <input type="submit" value="Calculate" />
+    </form>
+
+    <div id="result"></div>
+
+    <p><a href="../index.html">← Back to Home</a></p>
+  </div>
+
+  <script>
+    document.getElementById('multipleDilutionsCalculator').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const totalVolume = parseFloat(document.getElementById('totalVolume').value);
+      const volumeTaken = parseFloat(document.getElementById('volumeTaken').value);
+      const volumeDiluted = parseFloat(document.getElementById('volumeDiluted').value);
+      const finalConcentration = parseFloat(document.getElementById('finalConcentration').value);
+      const resultContainer = document.getElementById('result');
+
+      if (!isNaN(totalVolume) && !isNaN(volumeTaken) && !isNaN(volumeDiluted) && !isNaN(finalConcentration) && volumeTaken !== 0) {
+        const ingredientWeight = (finalConcentration / 100) * (volumeDiluted / volumeTaken) * totalVolume;
+        resultContainer.innerHTML = `Ingredient Weight Needed: ${ingredientWeight.toFixed(2)} g`;
+      } else {
+        resultContainer.innerHTML = "Please enter valid values in all fields.";
+      }
+    });
+  </script>
+</body>
+</html>

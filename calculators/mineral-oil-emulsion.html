@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mineral Oil Emulsion Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 360px;
+      max-width: 95vw;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 1.9rem;
+      margin-bottom: 18px;
+      color: #1e293b;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 14px 0 6px;
+      font-weight: 600;
+      color: #dbeafe;
+      font-size: 1rem;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1rem;
+      border: 1.6px solid #93c5fd;
+      border-radius: 6px;
+      outline: none;
+      background: white;
+      color: #1e293b;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    input[type="number"]:hover,
+    input[type="number"]:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 6px #60a5faaa;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      margin-top: 14px;
+    }
+
+    button:hover {
+      background-color: #1e40af;
+    }
+
+    #result-container {
+      margin-top: 20px;
+      font-size: 1rem;
+      font-weight: 500;
+      background-color: #f9f9f9;
+      padding: 12px;
+      border-radius: 6px;
+      color: #1e293b;
+      text-align: left;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      color: #1e3a8a;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+
+    ul, ol {
+      text-align: left;
+      margin: 0;
+      padding-left: 16px;
+      list-style-position: inside;
+      background-color: #f9f9f9;
+      border-radius: 6px;
+      padding: 10px;
+      font-size: 0.95rem;
+      color: #1e293b;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Mineral Oil Emulsion</h1>
+
+    <label for="totalVolume">Enter Total Volume (mL)</label>
+    <input type="number" id="totalVolume" placeholder="Total Volume in mL" />
+
+    <button onclick="calculateIngredients()">Calculate</button>
+
+    <div id="result-container"></div>
+
+    <h2>Formula</h2>
+    <ul>
+      <li>Mineral Oil (density: 0.838 g/mL) — 50% (v/v)</li>
+      <li>Acacia — 12.5% (w/v)</li>
+      <li>Syrup — 10% (w/v)</li>
+      <li>Vanillin — 0.004% (w/v)</li>
+      <li>Alcohol — 6% (v/v)</li>
+      <li>Water — to 100%</li>
+    </ul>
+
+    <h2>Preparation Steps</h2>
+    <ol>
+      <li>Thoroughly triturate acacia and mineral oil in a dry, clean mortar.</li>
+      <li>Add approximately 30% of the total water and triturate until an emulsion forms.</li>
+      <li>Dissolve vanillin in alcohol, mix with syrup, and add the primary emulsion gradually with mixing.</li>
+      <li>Transfer to a graduate, rinse the mortar with water, and q.s. to final volume.</li>
+      <li>Pour specified volume into a prescription bottle and retain remainder.</li>
+    </ol>
+
+    <p><a href="../pharmacy-compounding.html">← Back to Home</a></p>
+  </div>
+
+  <script>
+    function calculateIngredients() {
+      const totalVolume = parseFloat(document.getElementById('totalVolume').value);
+      if (isNaN(totalVolume) || totalVolume <= 0) {
+        document.getElementById("result-container").textContent =
+          "Please enter a valid total volume.";
+        return;
+      }
+
+      const mineralOilVolume = 0.50 * totalVolume;
+      const acaciaWeight = 0.125 * totalVolume;
+      const syrupWeight = 0.10 * totalVolume;
+      const vanillinWeight = 0.00004 * totalVolume;
+      const alcoholVolume = 0.06 * totalVolume;
+      const waterVolume = totalVolume - (mineralOilVolume + alcoholVolume);
+
+      document.getElementById("result-container").innerHTML = `
+        <strong>Ingredient Amounts:</strong><br>
+        Mineral Oil: ${mineralOilVolume.toFixed(2)} mL<br>
+        Acacia: ${acaciaWeight.toFixed(2)} g<br>
+        Syrup: ${syrupWeight.toFixed(2)} g<br>
+        Vanillin: ${vanillinWeight.toFixed(5)} g<br>
+        Alcohol: ${alcoholVolume.toFixed(2)} mL<br>
+        Water: ${waterVolume.toFixed(2)} mL
+      `;
+    }
+  </script>
+</body>
+</html>

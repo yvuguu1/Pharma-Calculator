@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PK Dosing Volume Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      max-width: 95vw;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #1e293b;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 14px 0 6px;
+      font-weight: 600;
+      color: #dbeafe;
+      font-size: 1rem;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1rem;
+      border: 1.6px solid #93c5fd;
+      border-radius: 6px;
+      outline: none;
+      background: white;
+      color: #1e293b;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    input:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 6px #60a5faaa;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      margin-top: 12px;
+    }
+
+    #calculateBtn {
+      background-color: #2563eb;
+      color: white;
+      width: 100%;
+    }
+
+    #calculateBtn:hover {
+      background-color: #1e40af;
+    }
+
+    #result {
+      margin-top: 20px;
+      background-color: #f9f9f9;
+      padding: 14px;
+      border-radius: 6px;
+      font-size: 1rem;
+      color: #1e293b;
+      text-align: left;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>PK Dosing Volume Calculator</h1>
+
+    <label for="strength">Strength (mg/kg)</label>
+    <input type="number" id="strength" step="any" />
+
+    <label for="bodyWeight">Body Weight (grams)</label>
+    <input type="number" id="bodyWeight" step="any" />
+
+    <label for="solutionConcentration">Solution Concentration (mg/mL)</label>
+    <input type="number" id="solutionConcentration" step="any" />
+
+    <button id="calculateBtn" onclick="calculate()">Calculate</button>
+
+    <div id="result"></div>
+
+    <a href="../pharmaceutical-labs.html">← Back to Home</a>
+  </div>
+
+  <script>
+    function calculate() {
+      const strength = parseFloat(document.getElementById("strength").value);
+      const bodyWeight = parseFloat(document.getElementById("bodyWeight").value);
+      const concentration = parseFloat(document.getElementById("solutionConcentration").value);
+      const resultDiv = document.getElementById("result");
+
+      if (isNaN(strength) || isNaN(bodyWeight) || isNaN(concentration) || concentration === 0) {
+        resultDiv.innerHTML = "Please enter valid numeric values.";
+        return;
+      }
+
+      const dosingVolume = (strength * bodyWeight) / (concentration * 1000); // convert grams to kg
+      const rounded = dosingVolume.toFixed(2);
+
+      resultDiv.innerHTML = `
+        <div><strong>Dosing Volume:</strong> ${rounded} mL</div>
+      `;
+    }
+  </script>
+</body>
+</html>

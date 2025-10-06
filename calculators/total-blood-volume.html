@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Total Blood Volume Estimator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 360px;
+      max-width: 95vw;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 2.2rem;
+      margin-bottom: 18px;
+      color: #1e293b;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 14px 0 6px;
+      font-weight: 600;
+      color: #dbeafe;
+      font-size: 1rem;
+    }
+
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1rem;
+      border: 1.6px solid #93c5fd;
+      border-radius: 6px;
+      outline: none;
+      background: white;
+      color: #1e293b;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    input[type="number"]:hover,
+    select:hover,
+    input[type="number"]:focus,
+    select:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 6px #60a5faaa;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      margin-top: 14px;
+    }
+
+    button:hover {
+      background-color: #1e40af;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      background-color: #f9f9f9;
+      padding: 12px;
+      border-radius: 6px;
+      color: #1e293b;
+      min-height: 40px;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Total Blood Volume Estimator</h1>
+
+    <label for="weight">Enter Body Weight:</label>
+    <input type="number" id="weight" placeholder="Weight" step="any" required />
+
+    <label for="species">Select Species:</label>
+    <select id="species" onchange="toggleWeightUnit()">
+      <option value="human">Human (kg)</option>
+      <option value="rat">Rat (g)</option>
+      <option value="mouse">Mouse (g)</option>
+      <option value="rabbit">Rabbit (g)</option>
+      <option value="pig">Pig (g)</option>
+    </select>
+
+    <label for="gender">Select Gender:</label>
+    <select id="gender">
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+
+    <button onclick="calculateBloodVolume()">Estimate Blood Volume</button>
+
+    <div id="result"></div>
+
+    <a href="../pharmaceutical-labs.html">← Back to Home</a>
+  </div>
+
+  <script>
+    function toggleWeightUnit() {
+      const species = document.getElementById('species').value;
+      const weightInput = document.getElementById('weight');
+      weightInput.placeholder = species === 'human' ? "Weight in kg" : "Weight in g";
+    }
+
+    function calculateBloodVolume() {
+      const weight = parseFloat(document.getElementById('weight').value);
+      const species = document.getElementById('species').value;
+      const gender = document.getElementById('gender').value;
+      let bloodVolume;
+
+      if (isNaN(weight) || weight <= 0) {
+        document.getElementById('result').innerText = "Please enter a valid weight.";
+        return;
+      }
+
+      // Convert weight to grams if the species is human
+      const weightInGrams = species === 'human' ? weight * 1000 : weight;
+
+      switch (species) {
+        case 'human':
+          bloodVolume = weight * (gender === 'male' ? 0.08 : 0.07); // kg to liters
+          bloodVolume *= 1000; // Convert to mL
+          break;
+        case 'rat':
+          bloodVolume = weightInGrams * 0.07; // Average 7%
+          break;
+        case 'mouse':
+          bloodVolume = weightInGrams * 0.07; // Average 7%
+          break;
+        case 'rabbit':
+          bloodVolume = weightInGrams * 0.07; // Average 7%
+          break;
+        case 'pig':
+          bloodVolume = weightInGrams * 0.08; // Average 8%
+          break;
+        default:
+          bloodVolume = 0;
+      }
+
+      document.getElementById('result').innerText = `Estimated Blood Volume: ${bloodVolume.toFixed(2)} mL`;
+    }
+  </script>
+</body>
+</html>

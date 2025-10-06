@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Insulin Quantity Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .calculator {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      max-width: 95vw;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 1.8rem;
+      color: #1e293b;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 6px;
+      color: #dbeafe;
+      text-align: left;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      margin-bottom: 16px;
+      border: 1.5px solid #93c5fd;
+      border-radius: 6px;
+      box-sizing: border-box;
+      background-color: white;
+      color: #1e293b;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 5px #3b82f699;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #1e40af;
+    }
+
+    .result-box {
+      background-color: #f9f9f9;
+      padding: 16px;
+      border-radius: 8px;
+      margin-top: 20px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #1e293b;
+    }
+
+    .disclaimer {
+      font-size: 0.85rem;
+      margin-top: 20px;
+      color: #1e293b;
+      text-align: left;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 24px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h1>Insulin Quantity Calculator</h1>
+
+    <form id="insulin-form">
+      <label for="insulin-type">Insulin Type:</label>
+      <select id="insulin-type" required>
+        <optgroup label="Rapid-Acting">
+          <option value="Humalog (Lispro)">Humalog (Lispro)</option>
+          <option value="Novolog (Aspart)">Novolog (Aspart)</option>
+          <option value="Apidra (Glulisine)">Apidra (Glulisine)</option>
+        </optgroup>
+        <optgroup label="Short-Acting">
+          <option value="Humulin R">Humulin R (Regular)</option>
+          <option value="Novolin R">Novolin R (Regular)</option>
+        </optgroup>
+        <optgroup label="Intermediate-Acting">
+          <option value="NPH">NPH (Neutral Protamine Hagedorn)</option>
+        </optgroup>
+        <optgroup label="Long-Acting">
+          <option value="Lantus">Lantus (Glargine)</option>
+          <option value="Levemir">Levemir (Detemir)</option>
+          <option value="Toujeo">Toujeo (Glargine)</option>
+          <option value="Basaglar">Basaglar (Glargine)</option>
+        </optgroup>
+        <optgroup label="Other">
+          <option value="Fiasp">Fiasp (Aspart)</option>
+          <option value="Afrezza">Afrezza (Inhaled)</option>
+        </optgroup>
+      </select>
+
+      <label for="insulin-strength">Insulin Strength (units/ml):</label>
+      <input type="number" id="insulin-strength" required />
+
+      <label for="units-per-dose">Units per Dose:</label>
+      <input type="number" id="units-per-dose" required />
+
+      <label for="doses-per-day">Doses per Day:</label>
+      <input type="number" id="doses-per-day" required />
+
+      <label for="duration">Duration of Treatment (days):</label>
+      <input type="number" id="duration" required />
+
+      <label for="package-size">Package Size (ml):</label>
+      <input type="number" id="package-size" required />
+
+      <button type="button" onclick="calculateInsulinQuantity()">Calculate</button>
+    </form>
+
+    <div id="result-container" class="result-box"></div>
+
+    <p class="disclaimer">
+      This calculator provides approximate values. It considers the total volume required based on the specified insulin type, strength, units per dose, doses per day, duration of treatment, and package size. The result is rounded up to the nearest package size.
+    </p>
+
+    <a href="../index.html">← Back to Home</a>
+  </div>
+
+  <script>
+    function calculateInsulinQuantity() {
+      const type = document.getElementById("insulin-type").value;
+      const strength = parseFloat(document.getElementById("insulin-strength").value);
+      const dose = parseFloat(document.getElementById("units-per-dose").value);
+      const perDay = parseFloat(document.getElementById("doses-per-day").value);
+      const duration = parseFloat(document.getElementById("duration").value);
+      const packageSize = parseFloat(document.getElementById("package-size").value);
+
+      const totalUnits = dose * perDay * duration;
+      const totalVolume = totalUnits / strength;
+      const totalPackages = Math.ceil(totalVolume / packageSize);
+
+      const resultBox = document.getElementById("result-container");
+      resultBox.innerHTML = `For <strong>${type}</strong>, you need approximately <strong>${totalPackages} package(s)</strong> (${totalVolume.toFixed(2)} mL).`;
+    }
+  </script>
+</body>
+</html>

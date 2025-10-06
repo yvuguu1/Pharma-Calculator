@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Drug Half-Life Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f4f8;
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 680px;
+      color: #1e293b;
+    }
+
+    a.back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: white;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    a.back-link:hover {
+      text-decoration: underline;
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 2.2rem;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin: 16px 0 6px;
+      color: #f0f9ff;
+    }
+
+    select,
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1.6px solid #93c5fd;
+      border-radius: 6px;
+      background-color: white;
+      color: #1e293b;
+      margin-bottom: 12px;
+      outline: none;
+    }
+
+    select:hover,
+    input[type="number"]:hover,
+    select:focus,
+    input[type="number"]:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 6px #2563eb88;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px 16px;
+      font-size: 1rem;
+      font-weight: bold;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #1e40af;
+    }
+
+    .info {
+      margin-top: 20px;
+      font-size: 1rem;
+      color: #eff6ff;
+      text-align: center;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background-color: white;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #d1d5db;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+
+    th {
+      background-color: #e0f2fe;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    @media screen and (max-width: 500px) {
+      .container {
+        padding: 20px;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <a class="back-link" href="/index.html">&larr; Back to Home</a>
+  <h2>Drug Half-Life Calculator</h2>
+  <form id="halfLifeForm">
+    <label for="drug">Select Drug (Half-Life)</label>
+    <select id="drug" name="drug">
+      <option value="acetaminophen">Acetaminophen (1–4 h)</option>
+      <option value="amikacin">Amikacin (2–3 h)</option>
+      <option value="amiodarone">Amiodarone (26–107 days)</option>
+      <option value="azithromycin">Azithromycin (68 h)</option>
+      <option value="levothyroxine">Levothyroxine (7 days)</option>
+      <option value="fluoxetine">Fluoxetine (1–3 days)</option>
+      <option value="diazepam">Diazepam (21–37 h)</option>
+      <option value="naproxen">Naproxen (12–17 h)</option>
+      <option value="ibuprofen">Ibuprofen (2–4 h)</option>
+      <option value="warfarin">Warfarin (20–60 h)</option>
+    </select>
+
+    <label for="dosage">Dosage (mg)</label>
+    <input type="number" id="dosage" name="dosage" step="0.01" required>
+
+    <button type="button" onclick="calculateHalfLife()">Calculate</button>
+  </form>
+
+  <p class="info">Results show how much drug remains over 6 half-life cycles.</p>
+
+  <div id="resultTable"></div>
+</div>
+
+<script>
+function calculateHalfLife() {
+  const drug = document.getElementById('drug').value;
+  const dosage = parseFloat(document.getElementById('dosage').value);
+  let halfLife;
+
+  const halfLifeMap = {
+    acetaminophen: [1, 4],
+    amikacin: [2, 3],
+    amiodarone: [26 * 24, 107 * 24],
+    azithromycin: [68],
+    levothyroxine: [7 * 24],
+    fluoxetine: [24, 72],
+    diazepam: [21, 37],
+    naproxen: [12, 17],
+    ibuprofen: [2, 4],
+    warfarin: [20, 60]
+  };
+
+  halfLife = halfLifeMap[drug] || [0];
+
+  let time = 0;
+  const results = [];
+
+  for (let i = 1; i <= 6; i++) {
+    time += halfLife[Math.floor(Math.random() * halfLife.length)];
+    const doseLeft = dosage * Math.pow(0.5, i);
+    const concentration = (doseLeft / dosage) * 100;
+    results.push([i, time.toFixed(1), doseLeft.toFixed(2), concentration.toFixed(2)]);
+  }
+
+  let table = `
+    <table>
+      <tr>
+        <th>Cycle</th>
+        <th>Time (hrs)</th>
+        <th>Dosage Left (mg)</th>
+        <th>Concentration (%)</th>
+      </tr>
+  `;
+
+  for (const row of results) {
+    table += `
+      <tr>
+        <td>${row[0]}</td>
+        <td>${row[1]}</td>
+        <td>${row[2]}</td>
+        <td>${row[3]}</td>
+      </tr>
+    `;
+  }
+
+  table += '</table>';
+  document.getElementById('resultTable').innerHTML = table;
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Molar ↔ Mass Unit Converter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .calculator {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      max-width: 95vw;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    h2 {
+      margin-top: 0;
+      margin-bottom: 24px;
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #1e293b;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #dbeafe;
+    }
+
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1rem;
+      border: 1.6px solid #93c5fd;
+      border-radius: 6px;
+      margin-bottom: 16px;
+      background: white;
+      color: #1e293b;
+      box-sizing: border-box;
+    }
+
+    input[type="number"]:focus,
+    select:focus {
+      outline: none;
+      border-color: #60a5fa;
+      box-shadow: 0 0 6px #60a5faaa;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #1e40af;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      background-color: #f9f9f9;
+      padding: 12px;
+      border-radius: 6px;
+      color: #1e293b;
+      min-height: 1.5em;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h2>Molar ↔ Mass Unit Converter</h2>
+
+    <label for="conversionMode">Conversion Mode:</label>
+    <select id="conversionMode" onchange="updateUnits()">
+      <option value="molarToMass">Molar → Mass</option>
+      <option value="massToMolar">Mass → Molar</option>
+    </select>
+
+    <label for="inputValue">Input Value:</label>
+    <input type="number" id="inputValue" step="any" required />
+
+    <label for="inputUnit">Input Unit:</label>
+    <select id="inputUnit"></select>
+
+    <label for="molecularWeight">Molecular Weight (g/mol):</label>
+    <input type="number" id="molecularWeight" step="any" required />
+
+    <label for="outputUnit">Output Unit:</label>
+    <select id="outputUnit"></select>
+
+    <button onclick="calculate()">Calculate</button>
+
+    <p class="result" id="result"></p>
+
+    <p><a href="../pharmaceutical-labs.html">← Back to Home</a></p>
+  </div>
+
+  <script>
+    function numberWithCommas(x) {
+      // Format number with commas and fixed decimals (US style)
+      return Number(x).toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 6,
+        useGrouping: true
+      });
+    }
+
+    function calculate() {
+      const mode = document.getElementById("conversionMode").value;
+      const inputValue = parseFloat(document.getElementById("inputValue").value);
+      const molecularWeight = parseFloat(document.getElementById("molecularWeight").value);
+      const inputUnit = document.getElementById("inputUnit").value;
+      const outputUnit = document.getElementById("outputUnit").value;
+
+      if (isNaN(inputValue) || isNaN(molecularWeight)) {
+        document.getElementById("result").textContent = "Please enter valid values.";
+        return;
+      }
+
+      let result;
+
+      if (mode === "molarToMass") {
+        let moles = inputValue;
+        if (inputUnit === "millimolar") moles /= 1000;
+        else if (inputUnit === "micromolar") moles /= 1e6;
+        else if (inputUnit === "nanomolar") moles /= 1e9;
+        else if (inputUnit === "picomolar") moles /= 1e12;
+
+        if (outputUnit === "milligram") result = moles * molecularWeight * 1000;
+        else if (outputUnit === "microgram") result = moles * molecularWeight * 1e6;
+        else if (outputUnit === "nanogram") result = moles * molecularWeight * 1e9;
+        else if (outputUnit === "picogram") result = moles * molecularWeight * 1e12;
+        else result = moles * molecularWeight;
+      } else {
+        let grams = inputValue;
+        if (inputUnit === "milligram") grams /= 1000;
+        else if (inputUnit === "microgram") grams /= 1e6;
+        else if (inputUnit === "nanogram") grams /= 1e9;
+        else if (inputUnit === "picogram") grams /= 1e12;
+
+        let moles = grams / molecularWeight;
+
+        if (outputUnit === "millimolar") result = moles * 1000;
+        else if (outputUnit === "micromolar") result = moles * 1e6;
+        else if (outputUnit === "nanomolar") result = moles * 1e9;
+        else if (outputUnit === "picomolar") result = moles * 1e12;
+        else result = moles;
+      }
+
+      document.getElementById("result").textContent =
+        "Result: " + numberWithCommas(result) + " " + outputUnit;
+    }
+
+    function updateUnits() {
+      const mode = document.getElementById("conversionMode").value;
+      const inputUnit = document.getElementById("inputUnit");
+      const outputUnit = document.getElementById("outputUnit");
+
+      inputUnit.innerHTML = "";
+      outputUnit.innerHTML = "";
+
+      if (mode === "molarToMass") {
+        ["molar", "millimolar", "micromolar", "nanomolar", "picomolar"].forEach(unit => {
+          let opt = document.createElement("option");
+          opt.value = unit;
+          opt.text = unit.charAt(0).toUpperCase() + unit.slice(1);
+          inputUnit.appendChild(opt);
+        });
+
+        ["grams", "milligram", "microgram", "nanogram", "picogram"].forEach(unit => {
+          let opt = document.createElement("option");
+          opt.value = unit;
+          opt.text = unit.charAt(0).toUpperCase() + unit.slice(1);
+          outputUnit.appendChild(opt);
+        });
+      } else {
+        ["grams", "milligram", "microgram", "nanogram", "picogram"].forEach(unit => {
+          let opt = document.createElement("option");
+          opt.value = unit;
+          opt.text = unit.charAt(0).toUpperCase() + unit.slice(1);
+          inputUnit.appendChild(opt);
+        });
+
+        ["molar", "millimolar", "micromolar", "nanomolar", "picomolar"].forEach(unit => {
+          let opt = document.createElement("option");
+          opt.value = unit;
+          opt.text = unit.charAt(0).toUpperCase() + unit.slice(1);
+          outputUnit.appendChild(opt);
+        });
+      }
+    }
+
+    window.onload = updateUnits;
+  </script>
+</body>
+</html>

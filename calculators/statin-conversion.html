@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Statin Dose Conversion Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      width: 360px;
+      max-width: 95vw;
+      color: #1e293b;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 14px 0 6px;
+      font-weight: 600;
+      color: #dbeafe;
+      font-size: 1rem;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1rem;
+      border: 1.6px solid #93c5fd;
+      border-radius: 6px;
+      background: white;
+      color: #1e293b;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    select:focus,
+    select:hover {
+      border-color: #60a5fa;
+      box-shadow: 0 0 6px #60a5faaa;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      margin-top: 10px;
+      width: 100%;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #1e40af;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 1rem;
+      font-weight: normal;
+      background-color: #f9f9f9;
+      padding: 12px;
+      border-radius: 6px;
+      color: #1e293b;
+      min-height: 48px;
+    }
+
+    .disclaimer {
+  color: #000; /* soft dark gray */
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Statin Dose Conversion</h1>
+
+    <label for="statin">Select Statin:</label>
+    <select id="statin">
+      <option value="atorvastatin">Atorvastatin (Lipitor)</option>
+      <option value="rosuvastatin">Rosuvastatin (Crestor)</option>
+      <option value="simvastatin">Simvastatin (Zocor)</option>
+      <option value="pravastatin">Pravastatin (Pravachol)</option>
+      <option value="lovastatin">Lovastatin (Mevacor)</option>
+      <option value="fluvastatin">Fluvastatin (Lescol)</option>
+    </select>
+
+    <label for="strength">Select Strength:</label>
+    <select id="strength">
+      <option value="10">10 mg</option>
+      <option value="20">20 mg</option>
+      <option value="40">40 mg</option>
+      <option value="80">80 mg</option>
+    </select>
+
+    <button onclick="convertDose()">Calculate for Atorvastatin</button>
+    <div id="result"></div>
+
+    <div class="disclaimer">
+      Disclaimer: This calculator is for informational purposes only. Always consult a healthcare professional before making dosing changes.
+    </div>
+
+    <p><a href="../index.html">← Back to Home</a></p>
+  </div>
+
+  <script>
+    const statinDoses = {
+      'atorvastatin': {'10': 1, '20': 2, '40': 4, '80': 8},
+      'rosuvastatin': {'5': 1, '10': 2, '20': 4, '40': 8},
+      'simvastatin': {'5': 0.5, '10': 1, '20': 2, '40': 4, '80': 8},
+      'pravastatin': {'10': 0.2, '20': 0.4, '40': 0.8, '80': 1.6},
+      'lovastatin': {'10': 0.6, '20': 1.2, '40': 2.4, '80': 4.8},
+      'fluvastatin': {'20': 0.4, '40': 0.8, '80': 1.6}
+    };
+
+    function convertDose() {
+      const statin = document.getElementById('statin').value;
+      const strength = document.getElementById('strength').value;
+      const result = document.getElementById('result');
+
+      const statinEquiv = statinDoses[statin][strength];
+      if (!statinEquiv) {
+        result.textContent = `Invalid dose for ${statin} ${strength} mg.`;
+        return;
+      }
+
+      const atorvastatinEquiv = Object.entries(statinDoses['atorvastatin'])
+        .find(([, value]) => value >= statinEquiv)?.[0];
+
+      if (!atorvastatinEquiv) {
+        result.textContent = `No equivalent dose found in atorvastatin for ${statin} ${strength} mg.`;
+      } else {
+        result.textContent = `Equivalent Atorvastatin dose: ${atorvastatinEquiv} mg for ${statin} ${strength} mg.`;
+      }
+    }
+  </script>
+</body>
+</html>

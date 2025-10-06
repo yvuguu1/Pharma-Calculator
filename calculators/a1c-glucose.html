@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>A1C and Glucose Conversion Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 360px;
+      max-width: 95vw;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+      color: #1e293b;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 14px 0 6px;
+      font-weight: 600;
+      color: #dbeafe;
+      font-size: 1rem;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1rem;
+      border: 1.6px solid #93c5fd;
+      border-radius: 6px;
+      outline: none;
+      background: white;
+      color: #1e293b;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    input[type="number"]:hover,
+    input[type="number"]:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 6px #60a5faaa;
+    }
+
+    input[type="submit"] {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      margin-top: 14px;
+      width: 100%;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #1e40af;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      background-color: #f9f9f9;
+      padding: 12px;
+      border-radius: 6px;
+      color: #1e293b;
+    }
+
+    .attention {
+      margin-top: 10px;
+      font-weight: bold;
+      color: #dc2626;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>A1C to Glucose Converter</h1>
+    <form onsubmit="convertA1C(event)">
+      <label for="a1c">A1C (%):</label>
+      <input type="number" id="a1c" min="4" max="12" step="0.1" required>
+
+      <input type="submit" value="Convert">
+    </form>
+
+    <div class="result" id="result"></div>
+
+    <p><a href="../index.html">← Back to Home</a></p>
+  </div>
+
+  <script>
+    function convertA1C(event) {
+      event.preventDefault();
+
+      const a1cInput = document.getElementById("a1c");
+      const resultElement = document.getElementById("result");
+      const a1c = parseFloat(a1cInput.value);
+
+      if (!isNaN(a1c) && a1c >= 4 && a1c <= 12) {
+        let glucoseRange, condition;
+
+        if (a1c < 5.7) {
+          glucoseRange = "Normal (70-130 mg/dL)";
+          condition = "Normal Blood Sugar";
+        } else if (a1c >= 5.7 && a1c < 6.5) {
+          glucoseRange = "Prediabetes (100-125 mg/dL)";
+          condition = "High Blood Sugar (Prediabetes)";
+        } else {
+          glucoseRange = "Diabetes (≥126 mg/dL)";
+          condition = "Very High Blood Sugar (Diabetes)";
+        }
+
+        resultElement.innerHTML = `
+          A1C ${a1c}% is equivalent to <strong>${glucoseRange}</strong>.<br>
+          This indicates: <strong>${condition}</strong>.
+        `;
+
+        if (a1c >= 9) {
+          resultElement.innerHTML += "<p class='attention'>Attention: A1C levels above 9% require urgent medical attention.</p>";
+        }
+      } else {
+        resultElement.textContent = "Please enter a valid A1C value between 4% and 12%.";
+      }
+    }
+  </script>
+</body>
+</html>

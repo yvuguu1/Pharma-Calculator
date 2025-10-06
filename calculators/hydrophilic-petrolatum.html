@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hydrophilic Petrolatum Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      background-color: #60a5fa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 360px;
+      max-width: 95vw;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 1.9rem;
+      margin-bottom: 18px;
+      color: #1e293b;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      margin-top: 20px;
+      color: #1e3a8a;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 14px 0 6px;
+      font-weight: 600;
+      color: #dbeafe;
+      font-size: 1rem;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1.6px solid #93c5fd;
+      border-radius: 6px;
+      background: white;
+      color: #1e293b;
+      margin-bottom: 12px;
+      outline: none;
+    }
+
+    input[type="number"]:hover,
+    input[type="number"]:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 6px #60a5faaa;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: bold;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    button:hover {
+      background-color: #1e40af;
+    }
+
+    .results, p, ol, ul {
+      text-align: left;
+      background-color: #f9f9f9;
+      padding: 12px;
+      border-radius: 6px;
+      color: #1e293b;
+      font-size: 0.95rem;
+      margin-top: 12px;
+      list-style-position: inside;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Hydrophilic Petrolatum Calculator</h1>
+
+    <h2>Ingredient Calculator</h2>
+    <label for="totalWeight">Enter Total Weight (g):</label>
+    <input type="number" id="totalWeight" placeholder="Enter total weight in grams" required>
+    <button onclick="calculateIngredients()">Calculate</button>
+
+    <h2>Results</h2>
+    <div id="results" class="results"></div>
+
+    <h2>Formula</h2>
+    <ul>
+      <li>Cholesterol: 3%</li>
+      <li>Stearyl Alcohol: 3%</li>
+      <li>White Wax: 8%</li>
+      <li>White Petrolatum: 86%</li>
+    </ul>
+
+    <h2>Preparation Steps</h2>
+    <ol>
+      <li>Melt the white wax.</li>
+      <li>Add the petrolatum and allow the mixture to remain on the heat until fully liquefied.</li>
+      <li>Remove from heat and stir the mixture until it begins to congeal.</li>
+    </ol>
+
+    <a href="../pharmacy-compounding.html">← Back to Home</a>
+  </div>
+
+  <script>
+    function calculateIngredients() {
+      const totalWeight = parseFloat(document.getElementById('totalWeight').value);
+      if (isNaN(totalWeight) || totalWeight <= 0) {
+        document.getElementById('results').innerHTML = "Please enter a valid total weight.";
+        return;
+      }
+
+      const cholesterol = (3 / 100) * totalWeight;
+      const stearylAlcohol = (3 / 100) * totalWeight;
+      const whiteWax = (8 / 100) * totalWeight;
+      const whitePetrolatum = (86 / 100) * totalWeight;
+
+      document.getElementById('results').innerHTML = `
+        <p><strong>Cholesterol:</strong> ${cholesterol.toFixed(2)} g</p>
+        <p><strong>Stearyl Alcohol:</strong> ${stearylAlcohol.toFixed(2)} g</p>
+        <p><strong>White Wax:</strong> ${whiteWax.toFixed(2)} g</p>
+        <p><strong>White Petrolatum:</strong> ${whitePetrolatum.toFixed(2)} g</p>
+      `;
+    }
+  </script>
+</body>
+</html>
